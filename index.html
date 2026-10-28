@@ -1,561 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio Neubauer</title>
-
-  <link rel="shortcut icon" href="./assets/images/logo.ico" type="image/x-icon">
-
-  <link rel="stylesheet" href="./assets/css/style.css">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Florian Neubauer – System Administrator in training</title>
+  <meta name="description" content="Apprentice system administrator from Graz. I run my own server and build the things that live on it.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f5f7">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0b10">
+  <link rel="icon" href="./assets/images/logo.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./assets/css/site.css?v=5">
 </head>
 
 <body>
+  <a class="skip" href="#projects">Skip to projects</a>
 
+  <!-- Icons: one stroke style for the whole page, used via <use href="#i-…"> -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M10.5 18.5h3"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11.2a6.5 6.5 0 0 1 13 0C18.5 14.8 12 21 12 21z"/><circle cx="12" cy="9.8" r="2.3"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20 14.5a2.5 2.5 0 0 1-2.5 2.5H9l-5 4V6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5z"/><path d="M8 9.5h8M8 13h5"/></symbol>
+    <symbol id="i-term" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="16" rx="3"/><path d="m7 10 3 2.5L7 15M12.5 15H17"/></symbol>
+    <symbol id="i-bag" viewBox="0 0 24 24"><path d="M5 8h14l-1.2 11.3a2 2 0 0 1-2 1.7H8.2a2 2 0 0 1-2-1.7z"/><path d="M9 10V6.5a3 3 0 0 1 6 0V10"/></symbol>
+    <symbol id="i-cat" viewBox="0 0 24 24"><path d="M5 20v-9.5L4 4l4.5 3.5h7L20 4l-1 6.5V20z"/><path d="M9.5 13h.01M14.5 13h.01M10.5 16.5c1 .7 2 .7 3 0"/></symbol>
+    <symbol id="i-calc" viewBox="0 0 24 24"><rect x="4.5" y="2.5" width="15" height="19" rx="3"/><path d="M8 7h8M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/></symbol>
+    <symbol id="i-docs" viewBox="0 0 24 24"><path d="M14 2.5H7A2.5 2.5 0 0 0 4.5 5v14A2.5 2.5 0 0 0 7 21.5h10a2.5 2.5 0 0 0 2.5-2.5V8z"/><path d="M14 2.5V8h5.5M8.5 13h7M8.5 17h5"/></symbol>
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/></symbol>
+    <symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="3.5" width="18" height="7" rx="2"/><rect x="3" y="13.5" width="18" height="7" rx="2"/><path d="M7 7h.01M7 17h.01M11 7h6M11 17h6"/></symbol>
+  </svg>
 
-  <main>
+  <header class="topbar">
+    <nav class="topbar-inner" aria-label="Sections">
+      <a class="brand" href="#top" aria-label="Back to top">
+        <img src="./assets/images/avatar-192.webp" alt="" width="28" height="28">
+        <span>Florian</span>
+      </a>
+      <ul class="nav">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#journey">Journey</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
+  <main id="top">
 
-    <aside class="sidebar" data-sidebar>
+    <!-- Intro -->
+    <section class="hero" aria-labelledby="hero-title">
+      <img class="avatar" style="--i:0" src="./assets/images/avatar-384.webp" alt="Florian’s Memoji, winking with the tongue out" width="168" height="168">
+      <p class="eyebrow" style="--i:1">Apprentice System Administrator · Graz, Austria</p>
+      <h1 id="hero-title" style="--i:2">I run my own server.<br><span class="grad">Everything below lives on it.</span></h1>
+      <p class="lead" style="--i:3">
+        Hi, I’m Florian. At work I’m learning networking, servers and IT security.
+        At home I build the things I want to use – a chat app, a webshop, a tiny social
+        network and a page full of cats – and host all of it myself.
+      </p>
+      <div class="actions" style="--i:4">
+        <a class="btn primary" href="#projects">See the projects</a>
+        <a class="btn" href="mailto:fneubauer@slxt.org">
+          <svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>
+          Email me
+        </a>
+      </div>
+      <p class="chill" style="--i:5">Status: chill guy 😎</p>
+    </section>
 
-      <div class="sidebar-info">
+    <!-- Projects -->
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="section-head">
+        <h2 id="projects-title">Projects</h2>
+        <p>Self-hosted behind a Cloudflare Tunnel – no open web ports. Each one has a write-up in my docs.</p>
+      </div>
 
-        <figure class="avatar-box">
-          <img src="./assets/images/avatar.png?=883721723" alt="Florian Neubauer" width="80">
-        </figure>
+      <ul class="projects">
+        <li class="project feature">
+          <div class="p-icon" aria-hidden="true"><svg class="ic"><use href="#i-chat"/></svg></div>
+          <h3>disslxt</h3>
+          <p>My own chat platform: servers, text and voice channels, voice messages, file sharing and push notifications – installable as an app.</p>
+          <ul class="tags" aria-label="Built with"><li>Node.js</li><li>PostgreSQL</li><li>WebRTC</li><li>PWA</li></ul>
+          <div class="p-foot">
+            <span class="host"><span class="dot" aria-hidden="true"></span>disslxt.slxt.org</span>
+            <span class="links">
+              <a href="https://disslxt.slxt.org">Open<span class="vh"> disslxt</span> <svg class="ic sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <a href="https://doc.slxt.dev/projekte/disslxt/">Docs<span class="vh"> for disslxt</span></a>
+            </span>
+          </div>
+        </li>
 
-        <div class="info-content">
-          <h1 class="name" title="Florian Neubauer">Florian Neubauer</h1>
+        <li class="project">
+          <div class="p-icon" aria-hidden="true"><svg class="ic"><use href="#i-term"/></svg></div>
+          <h3>Nexus</h3>
+          <p>A small Twitter in a green-terminal look: posts, hashtags, likes, direct messages – all live, password-free login by email code.</p>
+          <ul class="tags" aria-label="Built with"><li>React</li><li>Express</li><li>PostgreSQL</li><li>SSE</li></ul>
+          <div class="p-foot">
+            <span class="host"><span class="dot" aria-hidden="true"></span>nexus.slxt.org</span>
+            <span class="links">
+              <a href="https://nexus.slxt.org">Open<span class="vh"> Nexus</span> <svg class="ic sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <a href="https://doc.slxt.dev/projekte/nexus/">Docs<span class="vh"> for Nexus</span></a>
+            </span>
+          </div>
+        </li>
 
-          <p class="title">Chill Guy</p>
+        <li class="project">
+          <div class="p-icon" aria-hidden="true"><svg class="ic"><use href="#i-bag"/></svg></div>
+          <h3>Webshop</h3>
+          <p>Book services without an account and pay in crypto. With an admin dashboard and PDF invoices.</p>
+          <ul class="tags" aria-label="Built with"><li>Express</li><li>PostgreSQL</li><li>PDFKit</li></ul>
+          <div class="p-foot">
+            <span class="host"><span class="dot" aria-hidden="true"></span>shop.slxt.org</span>
+            <span class="links">
+              <a href="https://shop.slxt.org">Open<span class="vh"> Webshop</span> <svg class="ic sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <a href="https://doc.slxt.dev/projekte/webshop/">Docs<span class="vh"> for Webshop</span></a>
+            </span>
+          </div>
+        </li>
+
+        <li class="project">
+          <div class="p-icon" aria-hidden="true"><svg class="ic"><use href="#i-cat"/></svg></div>
+          <h3>El Gato Gordo</h3>
+          <p>Floating cat GIFs you can grab and throw – pick your mood, get matching cats, watch shooting stars.</p>
+          <ul class="tags" aria-label="Built with"><li>Vanilla JS</li><li>Web Animations</li></ul>
+          <div class="p-foot">
+            <span class="host"><span class="dot" aria-hidden="true"></span>cats.slxt.org</span>
+            <span class="links">
+              <a href="https://cats.slxt.org">Open<span class="vh"> El Gato Gordo</span> <svg class="ic sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <a href="https://doc.slxt.dev/projekte/katzen-seite/">Docs<span class="vh"> for El Gato Gordo</span></a>
+            </span>
+          </div>
+        </li>
+
+        <li class="project">
+          <div class="p-icon" aria-hidden="true"><svg class="ic"><use href="#i-calc"/></svg></div>
+          <h3>Calculator</h3>
+          <p>Nine calculators in one app – loan, BMI, currencies with ECB rates, units, number systems. Own parser, no <code>eval</code>.</p>
+          <ul class="tags" aria-label="Built with"><li>Vanilla JS</li><li>BigInt</li></ul>
+          <div class="p-foot">
+            <span class="host"><span class="dot" aria-hidden="true"></span>calc.slxt.dev</span>
+            <span class="links">
+              <a href="https://calc.slxt.dev">Open<span class="vh"> Calculator</span> <svg class="ic sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <a href="https://doc.slxt.dev/projekte/rechner/">Docs<span class="vh"> for Calculator</span></a>
+            </span>
+          </div>
+        </li>
+
+        <li class="project">
+          <div class="p-icon" aria-hidden="true"><svg class="ic"><use href="#i-home"/></svg></div>
+          <h3>slxt.org</h3>
+          <p>My start page: a draggable glass window, falling snow and links to my profiles.</p>
+          <ul class="tags" aria-label="Built with"><li>HTML</li><li>CSS</li><li>JS</li></ul>
+          <div class="p-foot">
+            <span class="host"><span class="dot" aria-hidden="true"></span>slxt.org</span>
+            <span class="links">
+              <a href="https://slxt.org">Open<span class="vh"> slxt.org</span> <svg class="ic sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <a href="https://doc.slxt.dev/projekte/website/">Docs<span class="vh"> for slxt.org</span></a>
+            </span>
+          </div>
+        </li>
+
+        <li class="project wide">
+          <div class="p-icon" aria-hidden="true"><svg class="ic"><use href="#i-server"/></svg></div>
+          <h3>The homelab underneath</h3>
+          <p>One ARM server, dozens of hardened containers, no open web ports, push alerts for everything important and backups to two storage boxes – one of them only reachable while it syncs.</p>
+          <ul class="tags" aria-label="Built with"><li>Docker</li><li>Cloudflare Tunnel</li><li>fail2ban</li><li>rsync</li></ul>
+          <div class="p-foot">
+            <span class="host"><svg class="ic sm" aria-hidden="true"><use href="#i-docs"/></svg>doc.slxt.dev</span>
+            <span class="links">
+              <a href="https://doc.slxt.dev/homelab/">Read how it works<span class="vh"> (homelab docs)</span> <svg class="ic sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            </span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Journey -->
+    <section class="section" id="journey" aria-labelledby="journey-title">
+      <div class="section-head">
+        <h2 id="journey-title">Journey</h2>
+      </div>
+
+      <div class="journey">
+        <ol class="timeline">
+          <li>
+            <span class="when">2023 – today</span>
+            <h3>Apprentice System Administrator</h3>
+            <p>Learning system administration, networking and IT security – setting up and running servers.</p>
+          </li>
+          <li>
+            <span class="when">2021 – 2023</span>
+            <h3>HTBLA Kaindorf an der Sulm</h3>
+            <p>One of the best technical schools in Austria, where I learned a lot about IT and programming.</p>
+          </li>
+          <li>
+            <span class="when">2017 – 2021</span>
+            <h3>NMS · BG · BRG Klusemann</h3>
+            <p>Secondary school in Graz.</p>
+          </li>
+        </ol>
+
+        <div class="card skills">
+          <h3>What I work with</h3>
+          <dl>
+            <dt>Servers &amp; networks</dt>
+            <dd><ul class="tags"><li>Linux</li><li>Docker</li><li>Networking</li><li>WireGuard</li><li>Backups</li></ul></dd>
+            <dt>Web</dt>
+            <dd><ul class="tags"><li>HTML &amp; CSS</li><li>JavaScript</li><li>Node.js</li><li>React</li><li>PostgreSQL</li></ul></dd>
+            <dt>On the side</dt>
+            <dd><ul class="tags"><li>Web design</li><li>Photography</li><li>Python</li></ul></dd>
+          </dl>
         </div>
+      </div>
+    </section>
 
-        <button class="info_more-btn" data-sidebar-btn>
-          <span>Show Contacts</span>
-
-          <ion-icon name="chevron-down"></ion-icon>
-        </button>
-
+    <!-- Contact -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="section-head">
+        <h2 id="contact-title">Contact</h2>
+        <p>Email is the quickest way to reach me.</p>
       </div>
 
-      <div class="sidebar-info_more">
-
-        <div class="separator"></div>
-
-        <ul class="contacts-list">
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="mail-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Email</p>
-
-              <a href="mailto:fneubauer@slxt.org" class="contact-link">fneubauer@slxt.org</a>
-            </div>
-
+      <div class="contact">
+        <ul class="card list">
+          <li>
+            <a href="mailto:fneubauer@slxt.org">
+              <svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg>
+              <span><span class="k">Email</span><span class="v">fneubauer@slxt.org</span></span>
+            </a>
           </li>
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="phone-portrait-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Phone</p>
-
-              <a href="tel:+436763253449" class="contact-link">+43 676
-                3253449</a>
-            </div>
-
+          <li>
+            <a href="tel:+436763253449">
+              <svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>
+              <span><span class="k">Phone</span><span class="v">+43 676 3253449</span></span>
+            </a>
           </li>
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="calendar-outline"></ion-icon>
+          <li>
+            <div>
+              <svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>
+              <span><span class="k">Location</span><span class="v">Graz, Styria, Austria</span></span>
             </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Birthday</p>
-
-              <time datetime="2007-06-20">June 20, 2007</time>
-            </div>
-
           </li>
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="location-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Location</p>
-
-              <address>Graz, Steiermark, Austria</address>
-            </div>
-
-          </li>
-
         </ul>
 
-        <div class="separator"></div>
-
-        <ul class="social-list">
-
-          <li class="social-item">
-            <a href="https://snapchat.com/t/2RIQvosE" class="social-link">
-              <ion-icon name="logo-snapchat"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://github.com/slxt47" class="social-link">
-              <ion-icon name="logo-github"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://www.instagram.com/florianneub/" class="social-link">
-              <ion-icon name="logo-instagram"></ion-icon>
-            </a>
-          </li>
-
+        <ul class="card list plain">
+          <li><a href="https://github.com/slxt47"><span><span class="k">GitHub</span><span class="v">slxt47</span></span><svg class="ic sm end" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li><a href="https://www.instagram.com/florianneub/"><span><span class="k">Instagram</span><span class="v">florianneub</span></span><svg class="ic sm end" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li><a href="https://snapchat.com/t/2RIQvosE"><span><span class="k">Snapchat</span><span class="v">Add me</span></span><svg class="ic sm end" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+          <li><a href="https://doc.slxt.dev"><span><span class="k">Docs</span><span class="v">doc.slxt.dev</span></span><svg class="ic sm end" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
         </ul>
 
+        <figure class="card map" aria-labelledby="map-cap">
+          <svg class="austria" viewBox="0 0 800 426" role="img" aria-labelledby="map-title">
+            <title id="map-title">Map of Austria – Graz in Styria is marked</title>
+            <g class="lands">
+          <path class="land" style="--i:0" pathLength="1" d="M574.8 13.7L580.5 15.6L588.5 16.3L589.6 20.5L588.9 24.7L598.8 22.7L600.7 20.7L601.7 17.2L602.5 17.2L604.0 19.0L611.1 19.7L620.5 23.6L627.8 29.1L636.3 32.3L644.2 36.7L648.9 37.3L654.3 34.9L658.3 34.6L659.8 37.7L665.2 39.2L664.2 40.6L666.6 40.3L667.5 42.6L669.8 42.8L669.9 44.7L680.2 52.0L685.7 54.3L695.2 53.8L709.5 55.8L711.7 55.4L713.7 56.7L716.4 55.2L721.6 46.5L723.4 45.3L727.4 45.7L730.2 44.8L742.9 48.9L744.8 54.8L746.2 55.7L751.7 55.8L758.9 59.4L766.5 58.0L768.9 61.3L770.3 71.4L773.9 75.4L774.8 82.5L774.0 85.2L770.7 88.3L765.6 97.6L763.5 111.7L769.4 115.7L769.1 119.2L770.9 123.1L774.8 125.8L777.6 142.8L780.2 145.6L784.4 147.4L785.9 150.2L783.0 152.1L779.1 151.0L777.7 152.4L777.6 158.2L775.6 160.3L769.3 156.3L767.1 156.6L756.3 162.8L751.7 163.8L749.2 165.9L746.7 171.6L739.7 177.5L735.7 179.5L728.5 177.1L724.9 177.4L722.0 178.3L715.4 183.8L713.8 186.8L712.6 195.8L710.2 198.3L706.6 198.7L706.6 208.0L715.5 221.3L709.9 232.5L710.2 243.2L704.8 248.9L700.6 251.7L692.1 252.0L688.6 248.9L685.7 241.1L681.0 242.4L676.7 239.8L668.4 238.3L665.9 232.4L663.2 230.4L659.3 229.8L659.7 224.6L658.2 221.5L656.1 221.3L652.7 223.2L650.6 222.6L648.8 214.4L647.6 212.7L641.3 211.3L636.5 206.3L629.6 205.7L617.2 198.7L611.2 194.1L602.9 195.4L597.9 194.8L592.4 201.4L580.1 205.2L573.8 205.5L564.5 209.5L562.4 209.2L557.8 205.3L547.1 205.3L543.5 202.5L545.3 198.7L546.9 187.7L548.7 185.1L548.1 181.1L542.6 176.9L534.0 173.2L515.6 158.6L517.5 156.9L521.0 150.0L519.9 143.6L521.7 133.1L525.1 130.1L531.5 130.8L537.2 137.3L541.1 139.6L555.8 136.0L560.2 131.3L562.1 130.5L568.3 130.5L571.1 133.1L571.8 116.6L570.6 109.0L568.2 106.2L567.6 101.3L565.1 100.4L562.3 95.6L562.6 91.5L565.8 91.0L565.8 88.8L563.3 86.0L544.8 80.3L542.7 78.1L544.0 64.9L545.9 61.8L551.3 57.2L553.9 49.2L555.4 48.6L560.8 49.3L566.1 51.5L568.2 51.3L569.3 48.6L568.0 45.2L571.1 32.7L570.7 19.5L572.2 14.3L574.8 13.7Z"><title>Niederösterreich</title></path>
+          <path class="land" style="--i:1" pathLength="1" d="M541.1 79.7L542.7 78.1L544.8 80.3L551.2 81.8L564.8 87.1L565.8 91.0L562.8 91.2L562.3 95.6L565.1 100.4L567.6 101.3L568.2 106.2L570.6 109.0L571.8 116.6L571.1 133.1L568.3 130.5L562.1 130.5L560.2 131.3L555.8 136.0L541.1 139.6L538.9 138.9L533.0 131.8L529.7 130.2L525.1 130.1L521.7 133.1L519.9 143.6L521.0 150.0L517.5 156.9L515.6 158.6L534.0 173.2L542.6 176.9L548.1 181.1L548.7 185.1L546.9 187.7L545.3 198.7L543.5 202.5L537.0 207.7L522.2 213.6L519.6 217.3L514.6 219.2L507.4 224.3L504.9 225.0L499.8 224.4L490.8 219.2L477.9 224.2L476.1 218.7L471.5 213.2L466.9 213.8L459.6 211.8L455.7 209.8L453.7 209.8L442.7 215.3L439.7 218.4L438.8 226.9L444.1 236.4L444.7 240.9L443.5 243.7L440.6 246.5L438.4 247.3L428.9 245.4L423.0 241.7L419.4 237.9L418.6 235.9L418.9 231.6L421.4 226.1L419.4 221.8L423.1 210.3L421.9 207.6L417.2 206.3L414.8 203.6L415.7 202.3L421.4 201.8L422.7 200.2L420.3 198.1L401.7 193.9L399.2 191.6L397.2 182.7L397.9 173.3L399.5 172.0L405.2 172.6L406.3 170.3L400.3 165.8L393.3 169.0L387.4 169.7L379.4 167.9L372.9 162.6L366.0 162.5L362.8 164.1L361.8 167.0L360.5 167.8L353.7 170.0L351.9 165.0L343.7 155.9L342.3 152.1L343.1 149.0L345.0 148.5L346.9 145.7L351.0 142.9L355.1 137.4L362.4 135.5L372.6 127.2L383.2 123.0L397.4 120.6L400.8 118.7L410.8 110.0L414.0 101.8L414.2 94.5L416.3 88.8L414.4 82.0L415.9 80.1L422.6 78.4L433.3 81.3L436.7 83.5L438.3 85.9L442.7 88.0L444.5 82.2L448.6 80.7L451.5 74.3L451.4 64.6L451.6 62.8L453.0 61.5L449.6 58.5L452.9 50.7L457.0 51.8L470.0 59.9L475.4 66.7L472.4 70.0L473.4 73.0L476.0 75.9L479.5 77.3L494.0 78.9L505.2 82.3L513.4 78.1L515.0 76.5L517.3 70.5L518.8 69.5L521.2 72.3L526.5 74.7L532.7 72.8L533.9 76.0L536.9 75.7L539.4 79.6L541.1 79.7Z"><title>Oberösterreich</title></path>
+          <path class="land" style="--i:2" pathLength="1" d="M794.7 166.5L788.3 171.9L789.3 174.0L787.1 177.6L788.5 179.1L786.4 185.3L779.9 188.1L779.9 189.8L783.5 192.1L785.2 195.9L783.7 197.6L784.7 208.2L787.2 211.7L769.5 215.7L765.6 215.0L764.1 211.0L758.7 216.7L751.8 215.1L749.0 209.4L747.7 208.4L739.5 205.2L735.2 204.7L731.4 206.4L731.0 209.9L729.5 212.0L723.5 215.7L722.0 214.4L718.8 218.8L726.4 222.2L729.2 221.6L735.9 224.4L739.3 223.8L741.6 224.8L744.2 230.3L743.7 233.2L746.8 235.7L747.6 237.6L746.4 241.9L742.2 244.4L742.7 250.5L737.4 254.7L726.4 259.7L723.8 256.8L722.5 257.1L721.4 259.1L721.7 264.9L720.4 266.9L721.9 268.2L725.5 277.3L724.8 279.4L720.1 282.4L720.5 285.1L718.9 288.4L719.3 290.9L722.2 292.5L721.4 297.2L722.8 298.2L726.2 296.5L727.9 296.7L729.2 298.5L726.4 303.4L724.2 304.8L723.5 307.0L724.3 309.0L727.6 310.3L727.5 311.9L720.5 315.8L724.9 316.6L726.8 319.6L719.5 321.0L716.7 319.1L705.1 318.8L703.7 322.8L700.8 324.6L699.9 328.4L694.4 331.8L688.2 339.5L679.8 344.2L679.5 341.5L677.3 339.1L678.8 331.2L682.5 327.9L687.5 321.2L691.0 314.6L686.1 306.8L685.6 303.2L686.7 294.3L681.9 270.9L678.8 261.5L681.8 257.0L683.0 256.8L684.3 259.4L692.1 252.0L698.0 252.1L703.2 250.3L710.2 243.2L709.9 232.5L715.5 221.3L706.6 208.0L706.6 198.7L710.2 198.3L712.6 195.8L713.8 186.8L715.4 183.8L722.0 178.3L728.5 177.1L735.7 179.5L739.7 177.5L746.7 171.6L749.2 165.9L751.7 163.8L756.3 162.8L767.1 156.6L769.3 156.3L775.6 160.3L776.9 159.6L777.7 152.4L779.8 150.7L783.0 152.1L785.9 150.2L787.7 152.5L785.6 158.1L787.2 159.4L786.6 161.9L792.3 164.3L794.7 166.5Z"><title>Burgenland</title></path>
+          <path class="land" style="--i:3" pathLength="1" d="M47.2 319.2L47.0 317.1L27.6 310.9L18.6 310.8L21.4 307.1L22.1 303.2L21.1 299.3L18.6 295.9L15.6 294.0L16.7 289.3L14.4 284.6L15.1 282.5L12.4 279.4L19.2 269.6L20.6 264.5L24.6 259.4L25.6 257.1L25.7 250.7L18.9 246.3L15.9 241.7L15.1 238.1L21.8 240.0L28.4 239.9L31.2 238.6L36.2 230.9L39.2 229.9L41.8 231.8L42.4 237.0L44.5 238.1L47.1 237.1L53.2 238.5L56.0 237.2L56.3 239.7L60.9 246.9L63.9 245.2L68.9 252.6L69.8 254.4L69.3 256.0L67.0 257.8L70.0 264.8L72.9 263.5L75.0 264.3L76.6 262.6L81.1 261.7L83.0 262.8L81.1 274.1L78.8 275.2L77.5 277.9L79.5 278.0L81.2 282.4L82.4 289.2L82.3 294.9L75.7 307.7L74.3 316.1L74.5 324.4L69.9 331.9L74.4 342.7L68.5 341.2L62.2 336.0L51.3 332.4L48.7 330.5L47.4 328.6L48.3 319.6L47.2 319.2Z"><title>Vorarlberg</title></path>
+          <path class="land" style="--i:4" pathLength="1" d="M75.1 342.8L74.4 342.7L69.9 331.9L74.5 324.4L74.3 316.1L75.7 307.7L82.3 294.9L82.4 289.2L79.5 278.0L86.1 277.2L92.9 273.5L96.8 269.1L99.7 263.5L103.8 261.5L105.5 259.2L107.9 252.7L107.9 249.4L106.9 246.2L104.6 244.4L105.7 237.0L104.0 232.3L108.1 231.0L108.9 232.7L107.9 235.0L108.6 237.0L115.4 239.0L117.9 237.8L121.4 233.9L123.9 233.9L137.4 239.0L139.6 241.3L149.6 238.7L153.0 241.1L148.9 244.4L149.6 245.6L154.9 248.1L160.0 253.6L159.5 257.1L162.0 260.0L172.7 260.2L184.0 254.2L186.2 255.1L186.0 259.2L188.4 259.5L190.6 258.5L195.5 253.2L203.5 251.8L204.0 249.1L201.6 248.0L206.4 242.4L208.8 241.9L213.6 243.0L220.6 241.3L222.5 239.2L224.5 232.7L227.7 229.7L248.2 231.9L251.5 228.3L260.1 226.5L284.5 227.4L287.4 223.6L287.9 221.2L287.7 217.2L284.8 212.1L291.3 208.1L289.6 213.6L291.2 216.2L296.8 214.5L302.7 215.7L308.5 213.9L310.2 214.2L312.3 219.6L316.2 223.0L319.7 223.8L323.5 222.7L324.4 221.8L327.1 226.4L333.8 231.9L333.7 235.7L336.3 243.5L335.6 245.3L328.1 257.7L325.0 259.6L318.1 260.8L314.8 267.4L312.3 269.4L307.0 270.6L299.0 268.8L295.4 271.0L283.9 275.2L279.4 275.4L276.5 276.8L275.1 290.9L275.8 294.2L279.8 299.5L280.3 307.4L268.2 313.3L260.9 313.6L256.4 315.2L248.5 320.4L243.8 321.2L239.5 323.9L234.2 320.6L225.3 319.4L217.9 321.2L212.5 318.3L206.3 323.9L203.1 323.7L196.3 321.4L182.0 324.9L173.5 332.7L169.7 344.6L169.5 347.6L167.5 349.0L163.8 354.5L157.0 353.8L150.8 355.3L147.1 352.8L143.1 353.4L139.0 351.2L135.7 351.9L135.1 350.6L138.3 346.9L137.3 345.3L127.9 340.1L115.7 343.3L111.4 342.8L108.1 340.0L107.8 336.8L109.1 331.6L108.6 329.1L99.8 320.0L96.3 321.8L93.7 324.8L91.9 328.3L91.9 331.2L85.7 331.1L82.2 339.7L75.1 342.8ZM314.8 368.7L308.2 366.6L304.7 363.4L301.8 355.1L294.3 351.6L295.0 342.8L294.0 339.5L292.4 338.3L286.7 337.7L284.3 334.8L279.7 333.3L281.2 331.8L281.2 330.4L278.1 320.5L279.2 317.8L285.4 314.3L287.5 311.3L287.6 309.2L299.5 303.5L307.4 296.7L318.2 295.8L325.9 297.5L331.7 302.4L332.0 305.3L334.2 307.6L343.0 310.6L343.9 311.8L342.2 317.7L342.5 321.6L345.0 326.0L349.4 330.2L351.7 338.3L357.5 344.9L364.2 355.3L363.6 356.4L362.4 356.3L357.6 353.1L341.0 357.6L339.4 364.3L335.5 372.3L330.3 371.7L322.8 372.3L317.9 369.3L314.8 368.7Z"><title>Tirol</title></path>
+          <path class="land" style="--i:5" pathLength="1" d="M287.6 309.2L287.6 307.3L285.2 306.5L280.3 307.4L279.8 299.5L275.8 294.2L275.1 290.9L276.5 276.8L279.4 275.4L283.9 275.2L295.4 271.0L299.0 268.8L301.7 268.8L305.4 270.5L310.3 270.1L314.8 267.4L318.1 260.8L325.0 259.6L328.1 257.7L336.3 243.5L333.7 235.7L333.8 231.9L327.1 226.4L324.4 221.8L328.0 218.6L333.6 216.7L344.8 218.0L343.8 220.6L350.1 226.4L347.3 227.7L346.0 231.3L346.6 235.0L349.1 237.1L351.6 237.7L357.2 243.6L363.3 247.9L366.1 247.1L369.4 248.5L373.1 244.4L372.1 237.0L373.5 234.0L373.2 230.6L376.6 224.7L376.6 219.1L373.8 213.5L371.3 211.0L365.5 212.1L359.8 211.1L358.2 209.4L360.7 205.3L361.7 201.2L368.3 190.6L365.6 186.8L362.2 178.7L355.1 173.0L353.7 170.0L361.8 167.0L364.1 163.1L372.9 162.6L379.4 167.9L387.4 169.7L393.3 169.0L400.3 165.8L406.3 170.3L405.2 172.6L399.5 172.0L397.9 173.3L397.2 182.7L399.2 191.6L401.7 193.9L420.3 198.1L422.7 200.2L421.4 201.8L415.7 202.3L414.8 203.6L417.2 206.3L421.9 207.6L423.1 210.3L419.4 221.8L421.4 226.1L418.9 231.6L418.6 235.9L419.4 237.9L423.0 241.7L428.9 245.4L427.2 251.7L428.2 257.1L431.2 267.3L433.9 272.9L440.4 277.7L450.9 273.5L452.3 274.4L458.3 287.1L465.6 295.0L465.4 296.5L459.5 303.4L459.5 308.4L457.8 313.0L453.4 321.3L449.5 326.4L446.5 322.4L437.7 315.4L431.4 312.7L414.3 309.9L400.8 306.2L397.4 306.7L392.4 311.1L387.0 313.7L383.0 314.6L372.3 314.7L360.4 307.9L345.9 304.3L335.8 298.7L334.4 298.9L331.7 302.4L325.9 297.5L318.2 295.8L307.4 296.7L299.5 303.5L287.6 309.2Z"><title>Salzburg</title></path>
+          <path class="land" style="--i:6" pathLength="1" d="M339.1 374.5L335.5 372.3L339.4 364.3L341.0 357.6L357.6 353.1L362.4 356.3L363.6 356.4L364.2 354.8L357.5 344.9L351.7 338.3L349.4 330.2L345.0 326.0L342.5 321.6L342.2 317.7L343.9 311.8L343.0 310.6L334.2 307.6L332.0 305.3L331.7 302.4L334.9 298.7L345.9 304.3L360.4 307.9L372.3 314.7L383.0 314.6L387.0 313.7L392.4 311.1L397.4 306.7L400.8 306.2L414.3 309.9L431.4 312.7L437.7 315.4L455.8 331.2L459.5 330.4L469.6 323.5L472.1 319.0L474.5 316.7L485.7 311.3L488.7 310.7L492.4 310.8L499.2 315.0L506.5 317.3L510.4 319.6L512.3 319.7L522.7 315.9L532.2 315.7L535.0 316.9L547.6 315.9L560.5 313.4L567.1 320.4L575.2 332.9L575.0 337.5L573.0 343.4L577.9 364.5L585.2 373.2L580.7 372.7L574.8 374.7L571.0 380.2L569.0 377.3L567.5 377.0L563.9 379.4L559.0 380.1L552.7 394.5L549.8 396.0L544.6 396.6L541.5 401.7L539.7 401.6L536.6 404.5L532.3 405.4L529.0 413.1L527.2 413.9L523.3 407.9L518.0 408.5L514.9 407.0L513.5 404.7L512.4 404.4L508.9 405.2L487.2 404.6L478.6 398.4L470.0 398.2L460.6 393.7L457.5 393.2L449.4 394.3L442.7 392.6L438.0 392.6L425.6 388.5L421.2 388.3L418.3 385.8L412.0 386.3L407.5 385.5L397.1 387.7L392.9 387.5L384.3 382.5L375.8 380.6L351.8 378.8L346.0 374.9L342.6 373.7L339.1 374.5Z"><title>Kärnten</title></path>
+          <path class="land" style="--i:7" pathLength="1" d="M719.5 117.1L722.7 117.4L726.4 123.4L727.5 121.6L729.4 121.3L732.1 124.7L734.0 129.4L732.6 137.2L735.5 144.0L728.4 142.7L723.6 143.0L722.1 143.4L719.0 146.7L715.7 146.4L712.5 144.6L707.0 145.2L699.6 143.9L697.7 140.8L698.6 136.5L696.3 130.9L698.3 127.5L700.8 128.6L703.5 128.1L713.0 121.2L718.3 119.0L719.5 117.1Z"><title>Wien</title></path>
+          <path class="land stmk" style="--i:8" pathLength="1" d="M679.8 344.2L675.6 345.3L674.0 346.7L674.7 348.4L673.9 358.5L675.1 362.2L677.3 363.7L678.4 366.0L678.6 369.5L675.6 366.2L671.4 365.5L661.6 361.3L649.1 364.6L641.2 363.4L639.6 362.4L638.7 368.0L636.3 369.2L630.4 369.3L628.8 370.5L626.8 375.9L624.9 377.5L621.8 378.0L614.2 373.3L595.4 374.3L585.2 373.2L577.9 364.5L576.7 360.9L576.4 355.8L573.0 343.4L575.0 337.5L575.2 332.9L567.1 320.4L560.5 313.4L547.6 315.9L535.0 316.9L532.2 315.7L522.7 315.9L512.3 319.7L509.5 319.4L506.5 317.3L499.2 315.0L492.4 310.8L488.7 310.7L485.7 311.3L474.5 316.7L472.1 319.0L469.6 323.5L459.5 330.4L454.8 330.7L449.5 326.4L453.4 321.3L457.8 313.0L459.5 308.4L459.5 303.4L465.4 296.5L465.6 295.0L458.3 287.1L452.3 274.4L450.9 273.5L440.4 277.7L433.9 272.9L431.2 267.3L427.2 251.7L428.9 245.4L438.4 247.3L440.6 246.5L444.3 242.5L444.1 236.4L439.1 228.5L439.1 220.6L439.7 218.4L442.7 215.3L454.8 209.6L466.9 213.8L471.5 213.2L476.1 218.7L477.9 224.2L490.8 219.2L499.8 224.4L504.9 225.0L507.4 224.3L514.6 219.2L519.6 217.3L522.2 213.6L537.0 207.7L543.5 202.5L547.1 205.3L557.8 205.3L562.4 209.2L564.5 209.5L573.8 205.5L580.1 205.2L592.4 201.4L597.9 194.8L602.9 195.4L609.1 193.9L612.9 194.8L617.2 198.7L629.6 205.7L636.5 206.3L641.3 211.3L648.3 213.3L650.6 222.6L652.7 223.2L656.1 221.3L658.2 221.5L659.7 224.6L659.3 229.8L663.2 230.4L665.9 232.4L668.4 238.3L676.7 239.8L681.0 242.4L685.7 241.1L688.6 248.9L692.1 252.0L684.3 259.4L683.0 256.8L681.8 257.0L678.8 261.5L681.9 270.9L686.7 294.3L685.6 303.2L686.1 306.8L691.0 314.6L687.5 321.2L678.1 332.6L677.3 339.1L679.5 341.5L679.8 344.2Z"><title>Steiermark</title></path>
+            </g>
+            <g transform="translate(715.3 135.6)"><g class="city"><circle r="5"/><text x="12" y="6">Vienna</text></g></g>
+            <g class="pin" transform="translate(619.4 308.7)">
+              <circle class="ring" r="12"/>
+              <circle class="ring r2" r="12"/>
+              <g class="drop"><circle class="core" r="10"/><circle class="hole" r="3.5"/></g>
+              <text class="label" x="20" y="-14">Graz</text>
+            </g>
+          </svg>
+          <figcaption id="map-cap">
+            <span><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg><span>Based in <strong>Graz</strong>, Styria, Austria</span></span>
+            <a href="https://www.openstreetmap.org/?mlat=47.0707&amp;mlon=15.4395#map=12/47.0707/15.4395">Open in OpenStreetMap <svg class="ic sm" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </figcaption>
+        </figure>
       </div>
-
-    </aside>
-
-    <!--
-      - #main-content
-    -->
-
-    <div class="main-content">
-
-      <!--
-        - #NAVBAR
-      -->
-
-      <nav class="navbar">
-
-        <ul class="navbar-list">
-
-          <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>About</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Resume</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Portfolio</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Contact</button>
-          </li>
-
-        </ul>
-
-      </nav>
-
-      <!--
-        - #ABOUT
-      -->
-
-      <article class="about  active" data-page="about">
-
-        <header>
-          <h2 class="h2 article-title">About me</h2>
-        </header>
-
-        <section class="about-text">
-          <p>
-            Hello! My name is Florian Neubauer, and I am a web developer based
-            in Graz, Austria. I have a passion for creating beautiful and
-            functional websites that provide an excellent user experience.
-            With a background in computer science and several years of
-            experience in the industry, I specialize in front-end development,
-            but I also have skills in back-end technologies.
-          </p>
-        </section>
-
-
-        <section class="service">
-
-          <h3 class="h3 service-title">What i'm doing</h3>
-
-          <ul class="service-list">
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-design.svg
-                " alt="design icon" width="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Web design</h4>
-
-                <p class="service-item-text">
-                  The most modern and high-quality design made at a
-                  professional level.
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-dev.svg" alt="Web development icon" width="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Web development</h4>
-
-                <p class="service-item-text">
-                  I just do funny shit.
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-app.svg" alt="mobile app icon" width="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Mobile apps</h4>
-
-                <p class="service-item-text">
-                  Professional development of applications for iOS, but not
-                  Android :3
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <img src="./assets/images/icon-photo.svg" alt="camera icon" width="40">
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Photography</h4>
-
-                <p class="service-item-text">
-                  I just take pictures of everything I find kinda aesthetic.
-                </p>
-              </div>
-
-            </li>
-
-          </ul>
-
-        </section>
-      </article>
-
-      <article class="resume" data-page="resume">
-
-        <header>
-          <h2 class="h2 article-title">Resume</h2>
-        </header>
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
-            </div>
-
-            <h3 class="h3">Education</h3>
-          </div>
-
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">HTBLA Kaindorf a.d. Sulm</h4>
-
-              <span>2021 — 2023</span>
-
-              <p class="timeline-text">
-                On of the Best HTBLAs in Austria, where I learned a lot about
-                IT and programming.
-              </p>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">NMS - BG - BRG Klusemann
-              </h4>
-
-              <span>2017 — 2021</span>
-
-              <p class="timeline-text">
-                Secondary school in Graz, Austria.
-              </p>
-
-            </li>
-
-          </ol>
-
-        </section>
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
-            </div>
-
-            <h3 class="h3">Experience</h3>
-          </div>
-
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">Apprentice as an System
-                Administrator</h4>
-
-              <span>2023 — Present</span>
-
-              <p class="timeline-text">
-                There im currently Learning a lot about System Administration,
-                Networking and IT Security. And I also know lots of stuff
-                about Servers and how to set them up.
-              </p>
-
-            </li>
-
-          </ol>
-
-        </section>
-
-        <section class="skill">
-
-          <h3 class="h3 skills-title">My skills</h3>
-
-          <ul class="skills-list content-card">
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Web design</h5>
-                <data value="90">90%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 90%;"></div>
-              </div>
-
-            </li>
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Database</h5>
-                <data value="50">50%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 50%;"></div>
-              </div>
-
-            </li>
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Graphic design</h5>
-                <data value="40">40%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 40%;"></div>
-              </div>
-
-            </li>
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Networking</h5>
-                <data value="85">85%</data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 85%;"></div>
-              </div>
-
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-      <article class="portfolio" data-page="portfolio">
-
-        <header>
-          <h2 class="h2 article-title">Portfolio</h2>
-        </header>
-
-        <section class="projects">
-
-          <ul class="filter-list">
-
-            <li class="filter-item">
-              <button class="active" data-filter-btn>All</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Web design</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Web development</button>
-            </li>
-
-          </ul>
-
-          <div class="filter-select-box">
-
-            <button class="filter-select" data-select>
-
-              <div class="select-value" data-selecct-value>Select
-                category</div>
-
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-
-            </button>
-
-            <ul class="select-list">
-
-              <li class="select-item">
-                <button data-select-item>All</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Web design</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Web development</button>
-              </li>
-
-            </ul>
-
-          </div>
-
-          <ul class="project-list">
-
-            <li class="project-item  active" data-filter-item data-category="web design">
-              <a href="https://slxt.org">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/socials1.png" alt="socials1" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Simple Socials Page</h3>
-
-                <p class="project-category">Simple Socials Link Page just made
-                  with HTML, CSS and JS.</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="https://slxt.dev">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/socials2.png" alt="socials2" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Simple Portfolio</h3>
-
-                <p class="project-category">A small little Portfolio Page that
-                  I made.</p>
-
-              </a>
-            </li>
-      </article>
-
-      <article class="contact" data-page="contact">
-
-        <header>
-          <h2 class="h2 article-title">Contact</h2>
-        </header>
-
-        <section class="mapbox" data-mapbox>
-          <figure>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d43568.681!2d15.4395!3d47.0707!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sat!4v1721897760000!5m2!1sen!2sat&z=10"
-              width="400" height="300" loading="lazy"></iframe>
-          </figure>
-        </section>
-
-        <section class="contact-form">
-
-          <h3 class="h3 form-title">Contact Form</h3>
-
-          <form action="#" class="form" data-form>
-
-            <div class="input-wrapper">
-              <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
-
-              <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
-            </div>
-
-            <textarea name="message" class="form-input" placeholder="Your Message" required data-form-input></textarea>
-
-            <button class="form-btn" type="submit" disabled data-form-btn>
-              <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
-            </button>
-
-          </form>
-
-        </section>
-
-      </article>
-
-    </div>
+    </section>
 
   </main>
 
-  <script src="./assets/js/script.js?=663474388"></script>
+  <footer class="footer">
+    <p>© 2026 Florian Neubauer · Served from my own server · No cookies, no trackers, no third-party fonts.</p>
+  </footer>
 
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
+  <script src="./assets/js/site.js?v=6" defer></script>
 </body>
-
 </html>
