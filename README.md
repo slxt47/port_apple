@@ -8,7 +8,7 @@ keine Icon-CDNs, keine eingebettete Karte – beim Laden werden rund 20 KB über
 ## Was drin ist
 
 - **Intro** mit Memoji und dem Leitsatz „I run my own server. Everything below lives on it.“
-- **Projekte** als Kacheln (disslxt, Nexus, Webshop, El Gato Gordo, Rechner, slxt.org, Homelab)
+- **Projekte** als Kacheln (disslxt, Nexus, Webshop, El Gato Gordo, Rechner, slxt.org, Dashboard, Homelab)
   mit Hostname, Live-Punkt und Links zur Seite und zur Doku auf [doc.slxt.dev](https://doc.slxt.dev).
 - **Journey**: Zeitleiste und Skills als Schlagwörter.
 - **Kontakt** und eine eigene **SVG-Karte von Österreich** mit Graz-Pin

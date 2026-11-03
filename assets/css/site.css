@@ -129,7 +129,7 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 /* Projects */
 .projects { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; grid-template-columns: 1fr; }
 @media (min-width: 680px) { .projects { grid-template-columns: repeat(2, 1fr); } .project.feature, .project.wide { grid-column: 1 / -1; } }
-@media (min-width: 1000px) { .projects { grid-template-columns: repeat(3, 1fr); } .project.feature { grid-column: span 2; grid-row: span 1; } .project.wide { grid-column: 1 / -1; } }
+@media (min-width: 1000px) { .projects { grid-template-columns: repeat(3, 1fr); } .project.feature { grid-column: span 2; grid-row: span 1; } .project.wide { grid-column: 1 / -1; } .project.span2 { grid-column: span 2; } }
 .project { position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 24px; min-height: 100%;
   transition: translate .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease; }
 .project > * { position: relative; z-index: 1; }
