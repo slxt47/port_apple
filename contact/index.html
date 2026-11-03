@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Contact – Florian Neubauer</title>
+  <meta name="description" content="Send Florian a message – it lands straight in his inbox.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f5f5f7">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0b10">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/images/logo.svg?v=2" type="image/svg+xml">
+  <link rel="icon" href="../assets/images/logo.ico?v=2" sizes="any">
+  <link rel="apple-touch-icon" href="../assets/images/logo-180.png">
+  <link rel="stylesheet" href="../assets/css/site.css?v=8">
+</head>
+
+<body class="page-contact">
+  <a class="skip" href="#form-title">Skip to the form</a>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10.5 13.5"/><path d="M21 3 14.5 21l-4-7.5L3 9.5z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <nav class="topbar-inner" aria-label="Main">
+      <a class="brand" href="../">
+        <img src="../assets/images/avatar-192.webp" alt="" width="28" height="28">
+        <span>Florian</span>
+      </a>
+      <a class="back" href="../#contact"><svg class="ic sm" aria-hidden="true"><use href="#i-back"/></svg>Back to the portfolio</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="contact-hero">
+      <img class="avatar sm" src="../assets/images/avatar-192.webp" alt="" width="96" height="96">
+      <h1 id="form-title">Write me a message</h1>
+      <p class="lead">Tell me what it’s about and how I can reach you. It lands straight in my inbox, and my reply comes from my own address.</p>
+    </section>
+
+    <div class="form-wrap">
+      <form class="card form" id="kontakt" action="/api/contact" method="post" novalidate>
+        <input type="hidden" name="token" value="">
+        <div class="hp" aria-hidden="true">
+          <label for="f-fax">Leave this empty</label>
+          <input id="f-fax" name="fax" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <fieldset class="group">
+          <legend>What’s it about?</legend>
+          <div class="chips" role="radiogroup">
+            <label class="chip"><input type="radio" name="topic" value="project" checked><span>Project</span></label>
+            <label class="chip"><input type="radio" name="topic" value="job"><span>Job / apprenticeship</span></label>
+            <label class="chip"><input type="radio" name="topic" value="question"><span>Question</span></label>
+            <label class="chip"><input type="radio" name="topic" value="feedback"><span>Feedback</span></label>
+            <label class="chip"><input type="radio" name="topic" value="other"><span>Something else</span></label>
+          </div>
+        </fieldset>
+
+        <div class="grid2">
+          <div class="field">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" maxlength="100" required aria-describedby="e-name">
+            <p class="err" id="e-name"></p>
+          </div>
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" maxlength="200" required aria-describedby="h-email e-email">
+            <p class="hint" id="h-email">So I can answer you.</p>
+            <p class="err" id="e-email"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="f-subject">Subject <span class="opt">optional</span></label>
+          <input id="f-subject" name="subject" type="text" maxlength="150" aria-describedby="e-subject">
+          <p class="err" id="e-subject"></p>
+        </div>
+
+        <div class="field">
+          <label for="f-message">Message</label>
+          <textarea id="f-message" name="message" rows="7" maxlength="5000" required aria-describedby="c-message e-message"></textarea>
+          <div class="below">
+            <p class="err" id="e-message"></p>
+            <p class="count" id="c-message" aria-live="polite">0 / 5000</p>
+          </div>
+        </div>
+
+        <details class="more">
+          <summary>Add more about you <span class="opt">optional</span></summary>
+          <div class="grid3">
+            <div class="field">
+              <label for="f-company">Company or school</label>
+              <input id="f-company" name="company" type="text" autocomplete="organization" maxlength="100" aria-describedby="e-company">
+              <p class="err" id="e-company"></p>
+            </div>
+            <div class="field">
+              <label for="f-phone">Phone</label>
+              <input id="f-phone" name="phone" type="tel" autocomplete="tel" maxlength="40" aria-describedby="e-phone">
+              <p class="err" id="e-phone"></p>
+            </div>
+            <div class="field">
+              <label for="f-website">Website</label>
+              <input id="f-website" name="website" type="url" autocomplete="url" inputmode="url" maxlength="200" placeholder="https://" aria-describedby="e-website">
+              <p class="err" id="e-website"></p>
+            </div>
+          </div>
+        </details>
+
+        <div class="field consent">
+          <label class="check">
+            <input id="f-consent" name="consent" type="checkbox" value="1" required aria-describedby="e-consent">
+            <span>Florian may use these details to answer me. They’re sent to him by email and not stored on the server.</span>
+          </label>
+          <p class="err" id="e-consent"></p>
+        </div>
+
+        <div class="send-row">
+          <button class="btn primary" type="submit"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg><span>Send message</span></button>
+          <p class="note"><svg class="ic sm" aria-hidden="true"><use href="#i-lock"/></svg>No tracking, no cookies, no third parties.</p>
+        </div>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <noscript><p class="status bad">This form needs JavaScript. You can also email me at fneubauer&#64;slxt.org.</p></noscript>
+      </form>
+
+      <div class="card done" id="fertig" hidden tabindex="-1">
+        <div class="done-ic" aria-hidden="true"><svg class="ic"><use href="#i-check"/></svg></div>
+        <h2>Thanks – your message is on its way.</h2>
+        <p>I’ll get back to you at <strong id="fertig-mail"></strong> as soon as I can.</p>
+        <a class="btn" href="../">Back to the portfolio</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>© 2026 Florian Neubauer · Served from my own server · Your message is only forwarded by email to me, nothing is saved.</p>
+  </footer>
+
+  <script src="../assets/js/contact.js?v=2" defer></script>
+</body>
+</html>

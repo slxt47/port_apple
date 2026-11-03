@@ -11,6 +11,12 @@ keine Icon-CDNs, keine eingebettete Karte – beim Laden werden rund 20 KB über
 - **Projekte** als Kacheln (disslxt, Nexus, Webshop, El Gato Gordo, Rechner, slxt.org, Dashboard, Homelab)
   mit Hostname, Live-Punkt und Links zur Seite und zur Doku auf [doc.slxt.dev](https://doc.slxt.dev).
 - **Journey**: Zeitleiste und Skills als Schlagwörter.
+- **Kontaktformular** unter [`/contact/`](https://slxt.dev/contact/) („Email me“ führt dorthin): Thema, Name, E-Mail,
+  Betreff, Nachricht, optional Firma/Schule, Telefon und Website. Die Nachricht geht per Mail an mich (Antworten
+  gehen per „Antworten“ direkt an den Absender), gespeichert wird nichts. Schutz: Einmal-Token mit Mindest-Ausfüllzeit,
+  Honigtopf-Feld, Drosselung pro IP, Prüfung im Browser und auf dem Server. Fällt der Versand aus, zeigt die Seite
+  die Mail-Adresse. Der kleine Mail-Dienst dahinter (Python, nur Standardbibliothek) liegt nicht in diesem Repo,
+  sondern beim Server-Setup (`compose/port_apple/kontakt/`).
 - **Kontakt** und eine eigene **SVG-Karte von Österreich** mit Graz-Pin
   (Grenzen aus [Natural Earth](https://www.naturalearthdata.com), gemeinfrei).
 
@@ -31,6 +37,8 @@ Geprüft gegen Apples Human Interface Guidelines:
 index.html               Seite inkl. SVG-Icons und Karte
 assets/css/site.css      Farben, Layout, Animationen
 assets/js/site.js        aktive Navigation, Einblenden, Lichtkegel, Zeitleiste
+assets/js/contact.js     Kontaktformular (Token holen, prüfen, senden)
+contact/index.html       Kontaktseite
 assets/images/           Memoji (WebP 192/384 px), Favicon
 ```
 
