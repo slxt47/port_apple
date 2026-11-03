@@ -18,7 +18,9 @@ keine Icon-CDNs, keine eingebettete Karte – beim Laden werden rund 20 KB über
   die Mail-Adresse. Der kleine Mail-Dienst dahinter (Python, nur Standardbibliothek) liegt nicht in diesem Repo,
   sondern beim Server-Setup (`compose/port_apple/kontakt/`).
 - **Kontakt** und eine eigene **SVG-Karte von Österreich** mit Graz-Pin
-  (Grenzen aus [Natural Earth](https://www.naturalearthdata.com), gemeinfrei).
+  (Grenzen aus [Natural Earth](https://www.naturalearthdata.com), gemeinfrei). Beim Hinscrollen startet sie auf
+  Europa (Österreich leuchtet) und zoomt hinein; Europa liegt in `assets/images/europe.svg` und wird erst
+  nachgeladen, wenn man zur Karte scrollt (bei „Weniger Bewegung“ gar nicht).
 
 ## Gestaltung
 

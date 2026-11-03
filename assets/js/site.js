@@ -60,6 +60,55 @@
     }
   }
 
+  // ---- Map: starts on Europe, Austria lights up, then the view flies in to Austria ----
+  const map = document.querySelector('.map');
+  const svg = map && map.querySelector('.austria');
+  const europe = svg && svg.querySelector('.europe');
+  if (europe && window.DOMParser) {
+    const START = [-5978.7, -4753.6, 12757.2, 6793.2], END = [0, 0, 800, 426];
+    const setBox = (b) => svg.setAttribute('viewBox', b.map((v) => v.toFixed(2)).join(' '));
+    const ease = (x) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+    const fly = () => {
+      const w0 = START[2], w1 = END[2];
+      const c0 = [START[0] + w0 / 2, START[1] + START[3] / 2], c1 = [END[0] + w1 / 2, END[1] + END[3] / 2];
+      const dur = 2400; let t0;
+      const step = (now) => {
+        if (!t0) t0 = now;
+        const k = ease(Math.min(1, (now - t0) / dur));
+        const w = Math.exp(Math.log(w0) + (Math.log(w1) - Math.log(w0)) * k);   // even zoom speed
+        const g = (w0 - w) / (w0 - w1);                                          // focus stays on Austria
+        const h = w * 426 / 800, cx = c0[0] + (c1[0] - c0[0]) * g, cy = c0[1] + (c1[1] - c0[1]) * g;
+        setBox([cx - w / 2, cy - h / 2, w, h]);
+        if (k > 0.8) map.classList.add('zoomed');   // last stretch: Europe fades, the states start drawing
+        if (k < 1) requestAnimationFrame(step);
+        else { setBox(END); setTimeout(() => map.classList.add('fertig'), 1000); }
+      };
+      requestAnimationFrame(step);
+    };
+    const done = () => map.classList.add('zoomed', 'fertig');
+    // Europe is a separate file, fetched only when the map comes near
+    let loaded = null;
+    const load = () => loaded || (loaded = fetch('./assets/images/europe.svg')
+      .then((r) => { if (!r.ok) throw new Error(r.status); return r.text(); })
+      .then((text) => {
+        const doc = new DOMParser().parseFromString(text, 'image/svg+xml');
+        for (const el of doc.querySelectorAll('path')) europe.appendChild(document.importNode(el, true));
+        if (!map.classList.contains('zoomed')) setBox(START);
+      }));
+    const near = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { near.disconnect(); load().catch(done); }
+    }, { rootMargin: '600px 0px' });
+    near.observe(map);
+    const start = new IntersectionObserver((entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      start.disconnect();
+      load().then(() => setTimeout(fly, 900)).catch(done);
+    }, { threshold: 0.5 });
+    start.observe(map);
+  } else if (map) {
+    map.classList.add('zoomed', 'fertig');
+  }
+
   // ---- Timeline line draws itself as you scroll past ----
   const tl = document.querySelector('.timeline');
   let ticking = false;
