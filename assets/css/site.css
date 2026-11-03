@@ -237,7 +237,7 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 .field textarea { resize: vertical; min-height: 160px; line-height: 1.5; }
 .field input::placeholder { color: color-mix(in srgb, var(--sec) 80%, transparent); }
 .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
-.field [aria-invalid="true"] { border-color: #d70015; }
+.field input[aria-invalid="true"], .field textarea[aria-invalid="true"] { border-color: #d70015; }
 .hint { color: var(--sec); font-size: .8125rem; margin-top: 6px; }
 .err { color: #c4001a; font-size: .875rem; font-weight: 500; margin-top: 6px; }
 .err:empty { display: none; }
@@ -270,7 +270,7 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 .done p { color: var(--sec); margin: 10px 0 24px; overflow-wrap: anywhere; }
 .done strong { color: var(--text); }
 @media (prefers-color-scheme: dark) {
-  .field [aria-invalid="true"] { border-color: #ff6b6b; }
+  .field input[aria-invalid="true"], .field textarea[aria-invalid="true"] { border-color: #ff6b6b; }
   .err, .status.bad { color: #ff8a8a; }
 }
 @media (prefers-reduced-motion: no-preference) {

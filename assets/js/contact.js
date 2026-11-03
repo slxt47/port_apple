@@ -79,10 +79,26 @@
     if (first && first.focus) first.focus();
   };
 
-  // live: remove an error as soon as the field is fixed
+  // live: format fields (email, phone, website) are checked as soon as you leave them;
+  // while you fix one, the hint stays until the value is valid. Empty fields are only flagged on send.
+  const FORMAT = ['email', 'phone', 'website'];
+  const formatError = (n) => (form.elements[n].value.trim() ? check()[n] : undefined);
+  form.addEventListener('focusout', (e) => {
+    const n = e.target.name;
+    if (!FORMAT.includes(n)) return;
+    const err = formatError(n);
+    setError(n, err ? errorText(n, err) : '');
+  });
   form.addEventListener('input', (e) => {
     const n = e.target.name;
-    if (n && e.target.getAttribute('aria-invalid') === 'true') setError(n, '');
+    if (!n || e.target.getAttribute('aria-invalid') !== 'true') return;
+    if (FORMAT.includes(n)) {
+      const err = formatError(n);
+      if (!err) setError(n, '');
+      else setError(n, errorText(n, err));
+    } else {
+      setError(n, '');
+    }
   });
 
   // if sending fails, offer the address itself (built from parts, not in the HTML)
