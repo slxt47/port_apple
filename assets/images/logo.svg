@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- slxt.dev-Logo: Portfolio – Profilkarte mit Avatar und Zeilen (slxt-Familie: Nachtquadrat, Komet, Farbpunkt) -->
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#103a5e"/><stop offset=".55" stop-color="#0b1430"/><stop offset="1" stop-color="#04050d"/></linearGradient>
+    <linearGradient id="p" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7cf0d8"/><stop offset="1" stop-color="#5b8dff"/></linearGradient>
+    <linearGradient id="k" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#cdd8ff" stop-opacity="0"/><stop offset="1" stop-color="#e6ecff" stop-opacity=".85"/></linearGradient>
+    <linearGradient id="h" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#e8e6f8"/></linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#g)"/>
+  <circle cx="54" cy="12" r=".8" fill="#fff" fill-opacity=".55"/><circle cx="9" cy="55" r=".9" fill="#fff" fill-opacity=".5"/><circle cx="44" cy="7" r=".6" fill="#fff" fill-opacity=".4"/>
+  <path d="M6 7 22.5 14.2" stroke="url(#k)" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="23.3" cy="14.6" r="2" fill="#fff"/>
+  <ellipse cx="32" cy="49.5" rx="15" ry="1.6" fill="#000" fill-opacity=".3"/>
+  <rect x="14" y="22" width="36" height="26" rx="5" fill="url(#h)"/>
+  <circle cx="24" cy="32.5" r="5" fill="url(#p)"/>
+  <path d="M17.6 44.5c1.2-3.6 3.6-5.5 6.4-5.5s5.2 1.9 6.4 5.5" fill="url(#p)"/>
+  <path d="M33.5 30h12M33.5 35h9M33.5 40h11" stroke="#1d4f8f" stroke-opacity=".38" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M14 27V27a5 5 0 0 1 5-5h26a5 5 0 0 1 5 5" fill="none"/>
+  <rect x="28" y="19.5" width="8" height="4" rx="2" fill="#cfd6ee"/>
+  <circle cx="53" cy="53" r="4.2" fill="url(#p)"/>
+</svg>
