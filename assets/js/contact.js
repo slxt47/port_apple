@@ -22,6 +22,15 @@
     return (t && typeof t === 'object' ? t[field] : t) || 'Please check this field.';
   };
 
+  // ---- spotlight on the form card, like the project cards on the main page ----
+  if (matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    form.addEventListener('pointermove', (e) => {
+      const r = form.getBoundingClientRect();
+      form.style.setProperty('--mx', e.clientX - r.left + 'px');
+      form.style.setProperty('--my', e.clientY - r.top + 'px');
+    });
+  }
+
   // ---- one-time token (proves the form was loaded and not filled in by a script within a second) ----
   let tokenTime = 0;
   const getToken = async () => {

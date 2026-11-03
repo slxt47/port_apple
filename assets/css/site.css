@@ -206,14 +206,18 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 .footer { max-width: 1080px; margin: 0 auto; padding: 28px 16px max(36px, env(safe-area-inset-bottom)); color: var(--sec); font-size: .8125rem; border-top: 1px solid var(--line); }
 
 /* ---------- Contact page (/contact/) ---------- */
-.back { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 999px; color: var(--sec); font-size: .9375rem; font-weight: 500; }
-.back:hover { color: var(--text); text-decoration: none; background: color-mix(in srgb, var(--text) 8%, transparent); }
-.contact-hero { text-align: center; padding: clamp(32px, 7vw, 64px) 0 clamp(22px, 4vw, 34px); }
-.contact-hero h1 { font-size: clamp(2rem, 5.4vw, 3.1rem); line-height: 1.08; font-weight: 700; }
-.contact-hero .lead { margin-top: 14px; }
-.avatar.sm { width: 84px; margin-bottom: 16px; }
+.hero.compact { padding-bottom: clamp(28px, 5vw, 44px); }
+.hero.compact h1 { font-size: clamp(2.1rem, 5.6vw, 3.4rem); }
 .form-wrap { max-width: 720px; margin: 0 auto clamp(40px, 8vw, 80px); }
-.form { padding: clamp(20px, 4vw, 34px); display: grid; gap: 20px; }
+.form { position: relative; overflow: hidden; padding: clamp(20px, 4vw, 34px); display: grid; gap: 20px; }
+.form > * { position: relative; z-index: 1; }
+.form > .hp { position: absolute; }
+/* same spotlight as the project cards, following the pointer */
+.form::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0; transition: opacity .3s;
+  background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 10%, transparent), transparent 60%);
+}
+@media (hover: hover) and (pointer: fine) { .form:hover::after { opacity: 1; } }
 .group { border: 0; margin: 0; padding: 0; min-width: 0; }
 .group legend, .field > label, .more summary { font-weight: 600; font-size: .9375rem; padding: 0; margin-bottom: 8px; }
 .opt { font-weight: 400; color: var(--sec); font-size: .8125rem; margin-left: 4px; }
@@ -276,9 +280,7 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 @media (prefers-reduced-motion: no-preference) {
   .done:not([hidden]) { animation: up .5s cubic-bezier(.2, .8, .2, 1) both; }
   .done:not([hidden]) .done-ic { animation: pop .6s cubic-bezier(.3, 1.5, .4, 1) both .1s; }
-  .page-contact .contact-hero > * { animation: up .7s cubic-bezier(.2, .8, .2, 1) both; }
-  .page-contact .contact-hero > :nth-child(2) { animation-delay: .06s; } .page-contact .contact-hero > :nth-child(3) { animation-delay: .12s; }
-  .page-contact .form-wrap { animation: up .7s cubic-bezier(.2, .8, .2, 1) both .18s; }
+  .page-contact .form-wrap { animation: up .8s cubic-bezier(.2, .8, .2, 1) both .5s; }
 }
 @keyframes fly { 50% { transform: translate(3px, -3px); } }
 

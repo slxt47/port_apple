@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-pill">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -12,14 +12,13 @@
   <link rel="icon" href="../assets/images/logo.svg?v=2" type="image/svg+xml">
   <link rel="icon" href="../assets/images/logo.ico?v=2" sizes="any">
   <link rel="apple-touch-icon" href="../assets/images/logo-180.png">
-  <link rel="stylesheet" href="../assets/css/site.css?v=9">
+  <link rel="stylesheet" href="../assets/css/site.css?v=10">
 </head>
 
 <body class="page-contact">
   <a class="skip" href="#form-title">Skip to the form</a>
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></symbol>
     <symbol id="i-send" viewBox="0 0 24 24"><path d="M21 3 10.5 13.5"/><path d="M21 3 14.5 21l-4-7.5L3 9.5z"/></symbol>
     <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V8a4 4 0 0 1 8 0v2.5"/></symbol>
@@ -31,15 +30,20 @@
         <img src="../assets/images/avatar-192.webp" alt="" width="28" height="28">
         <span>Florian</span>
       </a>
-      <a class="back" href="../#contact"><svg class="ic sm" aria-hidden="true"><use href="#i-back"/></svg>Back to the portfolio</a>
+      <ul class="nav">
+        <li><a href="../#projects">Projects</a></li>
+        <li><a href="../#journey">Journey</a></li>
+        <li><a href="../#contact" aria-current="true">Contact</a></li>
+      </ul>
     </nav>
   </header>
 
   <main>
-    <section class="contact-hero">
-      <img class="avatar sm" src="../assets/images/avatar-192.webp" alt="" width="96" height="96">
-      <h1 id="form-title">Write me a message</h1>
-      <p class="lead">Tell me what it’s about and how I can reach you. It lands straight in my inbox, and my reply comes from my own address.</p>
+    <section class="hero compact" aria-labelledby="form-title">
+      <img class="avatar" style="--i:0" src="../assets/images/avatar-384.webp" alt="Florian’s Memoji, winking with the tongue out" width="168" height="168">
+      <p class="eyebrow" style="--i:1">Contact · Graz, Austria</p>
+      <h1 id="form-title" style="--i:2">Let’s talk.<br><span class="grad">Write me a message.</span></h1>
+      <p class="lead" style="--i:3">Tell me what it’s about and how I can reach you. It lands straight in my inbox, and my reply comes from my own address.</p>
     </section>
 
     <div class="form-wrap">
@@ -137,9 +141,9 @@
   </main>
 
   <footer class="footer">
-    <p>© 2026 Florian Neubauer · Served from my own server · Your message is only forwarded by email to me, nothing is saved.</p>
+    <p>© 2026 Florian Neubauer · Served from my own server · No cookies, no trackers, no third-party fonts. Your message is only forwarded to me by email, nothing is saved.</p>
   </footer>
 
-  <script src="../assets/js/contact.js?v=3" defer></script>
+  <script src="../assets/js/contact.js?v=4" defer></script>
 </body>
 </html>
