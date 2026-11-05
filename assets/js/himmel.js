@@ -107,7 +107,12 @@
       e.preventDefault(); e.stopImmediatePropagation();
       const r = b.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
       const rad = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+      // While the circle grows: pause the endless animations (aurora, twinkling, shimmer) and skip colour transitions,
+      // so the browser only has to draw the reveal – that removes the short stutter when switching.
+      const root = document.documentElement;
+      root.classList.add('modus-wechsel');
       const vt = document.startViewTransition(() => window.slxtModus.wechseln());
+      vt.finished.finally(() => requestAnimationFrame(() => root.classList.remove('modus-wechsel')));
       vt.ready.then(() => document.documentElement.animate(
         { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${rad}px at ${x}px ${y}px)`] },
         { duration: 700, easing: 'cubic-bezier(.4, 0, .2, 1)', pseudoElement: '::view-transition-new(root)' })).catch(() => {});
