@@ -49,9 +49,12 @@
     const behavior = reduce ? 'auto' : 'smooth';
     if (!ziel) { scrollTo({ top: 0, behavior }); return; }
     ziel.scrollIntoView({ behavior, block: 'start' });
-    // keyboard/screen reader users land in the section (skip link)
-    if (!ziel.hasAttribute('tabindex')) ziel.setAttribute('tabindex', '-1');
-    ziel.focus({ preventScroll: true });
+    // only the skip link moves keyboard focus into the section (no frame around sections after a mouse click)
+    if (a.classList.contains('skip')) {
+      if (!ziel.hasAttribute('tabindex')) ziel.setAttribute('tabindex', '-1');
+      ziel.focus({ preventScroll: true });
+    }
+    if (id === 'journey') document.dispatchEvent(new Event('journey-abspielen'));
   });
 
   if (reduce) return;
@@ -220,32 +223,38 @@
     }
   }
 
-  // ---- Timeline: the line DRIVES down (time-based, never jumps – also after "Journey" in the top bar),
-  // following the scroll position; every dot it passes pops, sends out a ring and reveals its entry ----
+  // ---- Timeline: normally the line follows the scroll position (up and down, like before).
+  // Only a click on "Journey" PLAYS it: the line starts at 0 and drives down on its own (max speed: whole line in 1.6 s),
+  // then hands back to scrolling. Every dot the tip passes pops, sends out a ring and reveals its entry. ----
   const tl = document.querySelector('.timeline');
   const punkte = [...tl.children].map((li) => ({ li, an: false }));
   tl.classList.add('faehrt');
-  let soll = 0, ist = 0, tlLauf = false, tlZeit = 0;
   const TOP = 6;                                        // line starts 6px below the top (CSS)
-  const zielBerechnen = () => {
-    const r = tl.getBoundingClientRect();
-    soll = Math.max(soll, Math.min(1, Math.max(0, (innerHeight * 0.8 - r.top) / r.height)));   // only forward
-  };
-  const tlFrame = (now) => {
-    const dt = Math.min(50, now - (tlZeit || now)); tlZeit = now;
-    const diff = soll - ist;
-    // ease out, but never faster than the whole line in 1.6 s – so it always visibly "drives"
-    ist += Math.sign(diff) * Math.min(Math.abs(diff), Math.max(Math.abs(diff) * (1 - Math.exp(-dt / 220)), dt / 4000), dt / 1600);
+  let ist = 0, spielt = false, tlZeit = 0, sTl = false;
+  const ziel = () => { const r = tl.getBoundingClientRect(); return Math.min(1, Math.max(0, (innerHeight * 0.75 - r.top) / r.height)); };
+  const zeigen = () => {
     tl.style.setProperty('--p', ist.toFixed(4));
     const spitze = TOP + ist * (tl.offsetHeight - TOP);
-    for (const pt of punkte) {
-      if (!pt.an && spitze >= pt.li.offsetTop + 13) { pt.an = true; pt.li.classList.add('erreicht'); }
-    }
-    if (Math.abs(soll - ist) > 0.0005) requestAnimationFrame(tlFrame);
-    else { tlLauf = false; tlZeit = 0; }
+    for (const pt of punkte) if (!pt.an && spitze >= pt.li.offsetTop + 13) { pt.an = true; pt.li.classList.add('erreicht'); }
   };
-  const tlWecken = () => { zielBerechnen(); if (!tlLauf && soll > ist) { tlLauf = true; requestAnimationFrame(tlFrame); } };
-  addEventListener('scroll', tlWecken, { passive: true });
-  addEventListener('resize', tlWecken);
-  tlWecken();
+  const folgen = () => { sTl = false; if (!spielt) { ist = ziel(); zeigen(); } };
+  addEventListener('scroll', () => { if (!sTl) { sTl = true; requestAnimationFrame(folgen); } }, { passive: true });
+  addEventListener('resize', folgen);
+  folgen();
+  const spielFrame = (now) => {
+    const dt = Math.min(50, now - (tlZeit || now)); tlZeit = now;
+    const soll = ziel(), diff = soll - ist;
+    ist += Math.sign(diff) * Math.min(Math.abs(diff), Math.max(Math.abs(diff) * (1 - Math.exp(-dt / 220)), dt / 4000), dt / 1600);
+    zeigen();
+    if (Math.abs(soll - ist) > 0.0005 || now - startZeit < 900) requestAnimationFrame(spielFrame);   // wait for the smooth scroll to arrive
+    else { spielt = false; tlZeit = 0; folgen(); }
+  };
+  let startZeit = 0;
+  document.addEventListener('journey-abspielen', () => {
+    ist = 0; tlZeit = 0; startZeit = performance.now();
+    for (const pt of punkte) { pt.an = false; pt.li.classList.remove('erreicht'); }
+    void tl.offsetWidth;                                 // restart the dot animations
+    zeigen();
+    if (!spielt) { spielt = true; requestAnimationFrame(spielFrame); }
+  });
 })();
