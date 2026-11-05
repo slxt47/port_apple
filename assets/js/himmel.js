@@ -93,7 +93,8 @@
     }, erst ? 1500 + Math.random() * 2500 : 4000 + Math.random() * 9000);
   })(true);
   // Tap/click into the empty sky = your own shooting star
-  addEventListener('pointerdown', (e) => {
+  // "click" instead of "pointerdown": on phones a swipe to scroll must not fire a shooting star
+  addEventListener('click', (e) => {
     if (e.button || e.target.closest('a, button, input, textarea, label, select, .card, .project, .form, .topbar, svg')) return;
     meteor(e.clientX, e.clientY);
   });

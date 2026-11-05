@@ -448,7 +448,7 @@ body > :is(header, main, footer) { position: relative; z-index: 1; }
 .btn.primary { box-shadow: 0 6px 22px color-mix(in srgb, var(--accent) 35%, transparent); }
 .btn.primary:hover { box-shadow: 0 10px 32px color-mix(in srgb, var(--accent) 50%, transparent); }
 .btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, .35) 50%, transparent 70%); transform: translateX(-120%); }
-.btn:hover::before { transform: translateX(120%); transition: transform .8s var(--ease-out); }
+@media (hover: hover) { .btn:hover::before { transform: translateX(120%); transition: transform .8s var(--ease-out); } }
 .welle { position: absolute; z-index: -1; border-radius: 50%; background: currentColor; opacity: .25; pointer-events: none; transform: scale(0); }
 
 /* Section titles: gradient underline sweeps in */
@@ -481,7 +481,7 @@ body > :is(header, main, footer) { position: relative; z-index: 1; }
 
 @media (prefers-reduced-motion: no-preference) {
   /* Rise-in keeps the hover lift smooth (own transition list, the tilt itself is driven per frame) */
-  .js .project.rise { transition: opacity .7s ease, transform .8s var(--ease-out), translate .45s var(--ease-out), box-shadow .45s ease; }
+  .js .project.rise { transition: opacity .7s ease, transform .8s var(--ease-out), translate .45s var(--ease-out), box-shadow .45s ease, scale .25s var(--spring); }
   .js .rise { transform: translate3d(0, 28px, 0) scale(.98); }
   .js .rise.in { transform: none; }
   .js .section-head h2::after { transform: scaleX(0); transition: transform .9s var(--ease-out) .25s; }
@@ -504,3 +504,45 @@ body > :is(header, main, footer) { position: relative; z-index: 1; }
 @keyframes punkt { 0% { transform: scale(0); background: var(--accent); } 55% { transform: scale(1.45); background: var(--accent); } 100% { transform: scale(1); } }
 @keyframes welle-punkt { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(3.4); } }
 @keyframes aufleuchten { 0% { text-shadow: 0 0 0 transparent; } 30% { text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 70%, transparent); } 100% { text-shadow: 0 0 0 transparent; } }
+
+/* ================= Phones (05.11.2026) ================= */
+html { -webkit-tap-highlight-color: transparent; }
+a, button, .chip input { touch-action: manipulation; }          /* no double-tap zoom delay */
+h1, h2, .lead, .section-head p { text-wrap: balance; }
+p { text-wrap: pretty; }
+.modus-knopf { width: 44px; height: 44px; }                       /* Apple minimum hit target */
+main, .topbar-inner, .footer { padding-left: max(16px, env(safe-area-inset-left)); padding-right: max(16px, env(safe-area-inset-right)); }
+/* Press feedback on touch instead of hover (spring back) */
+@media (hover: none) {
+  .project, .list a, .list li > div, .card.map { transition: scale .25s var(--spring), translate .35s var(--ease-out), opacity .7s ease, transform .8s var(--ease-out); }
+  .project:active { scale: .985; }
+  .list a:active { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  .links a:active, .map figcaption a:active { opacity: .6; }
+  .btn:active { transform: scale(.95); }
+  .nav a:active { color: var(--text); }
+}
+@media (max-width: 679px) {
+  .section { padding: 44px 0; }
+  .section-head { margin-bottom: 22px; }
+  .projects { gap: 12px; }
+  /* Icon next to the title instead of above it: every card gets ~60px shorter */
+  .project { display: grid; grid-template-columns: 44px 1fr; column-gap: 14px; align-content: start; padding: 20px; }
+  .project > :not(.p-icon, h3) { grid-column: 1 / -1; }
+  .project .p-icon { width: 44px; height: 44px; margin: 0; border-radius: 13px; }
+  .project .p-icon .ic { width: 24px; height: 24px; }
+  .project h3, .project.feature h3 { align-self: center; font-size: 1.3rem; }
+  .project > p { margin-top: 12px; }
+  .p-foot { padding-top: 14px; }
+  .links a:last-child { margin-right: -10px; }
+  .skills { padding: 20px; }
+  .hero { padding-top: 32px; }
+  .hero .actions { gap: 10px; }
+  .btn { padding: 0 20px; }
+  .aurora i { width: 90vmax; height: 90vmax; }
+}
+@media (max-width: 359px) { .hero .actions .btn { flex: 1 1 100%; justify-content: center; } }
+
+/* Profile picture (same as on GitHub: Memoji in front of a starry sky) – fills the circle, soft accent ring + glow */
+.avatar { object-fit: cover; background: #14123a; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent), 0 14px 44px color-mix(in srgb, var(--accent) 30%, transparent); }
+.brand img { object-fit: cover; box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--accent) 50%, transparent); }
+@media (max-width: 420px) { .brand { min-width: 44px; justify-content: center; } }
