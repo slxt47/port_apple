@@ -28,11 +28,37 @@
   addEventListener('scroll', () => { if (scrollY < 200) setCurrent(null); }, { passive: true });
   addEventListener('resize', () => pill(links.find((a) => a.getAttribute('aria-current') === 'true')));
 
+  // ---- In-page links (nav, "See the projects", logo) scroll smoothly WITHOUT putting #… into the address bar,
+  // so a reload starts at the top again. A reload that still carries a hash (older link) also starts at the top;
+  // a fresh visit via a shared link like slxt.dev/#contact still jumps there.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  const navTyp = (performance.getEntriesByType('navigation')[0] || {}).type;
+  if (navTyp === 'reload' || navTyp === 'back_forward') {
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    scrollTo(0, 0);
+    addEventListener('load', () => scrollTo(0, 0), { once: true });
+  }
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || e.defaultPrevented || e.button || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    const id = a.getAttribute('href').slice(1);
+    const ziel = id === 'top' || !id ? null : document.getElementById(id);
+    if (id && id !== 'top' && !ziel) return;
+    e.preventDefault();
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    const behavior = reduce ? 'auto' : 'smooth';
+    if (!ziel) { scrollTo({ top: 0, behavior }); return; }
+    ziel.scrollIntoView({ behavior, block: 'start' });
+    // keyboard/screen reader users land in the section (skip link)
+    if (!ziel.hasAttribute('tabindex')) ziel.setAttribute('tabindex', '-1');
+    ziel.focus({ preventScroll: true });
+  });
+
   if (reduce) return;
 
   // ---- Rise-in once while scrolling (safety net: everything visible after 2.5 s) ----
   document.documentElement.classList.add('js');
-  const items = document.querySelectorAll('.section-head, .project, .timeline li, .skills, .contact .card');
+  const items = document.querySelectorAll('.section-head, .project, .skills, .contact .card');   // timeline: own animation below
   items.forEach((el) => el.classList.add('rise'));
   const rise = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); rise.unobserve(e.target); }
@@ -194,15 +220,32 @@
     }
   }
 
-  // ---- Timeline line draws itself as you scroll past ----
+  // ---- Timeline: the line DRIVES down (time-based, never jumps – also after "Journey" in the top bar),
+  // following the scroll position; every dot it passes pops, sends out a ring and reveals its entry ----
   const tl = document.querySelector('.timeline');
-  let ticking = false;
-  const draw = () => {
-    ticking = false;
+  const punkte = [...tl.children].map((li) => ({ li, an: false }));
+  tl.classList.add('faehrt');
+  let soll = 0, ist = 0, tlLauf = false, tlZeit = 0;
+  const TOP = 6;                                        // line starts 6px below the top (CSS)
+  const zielBerechnen = () => {
     const r = tl.getBoundingClientRect();
-    const p = Math.min(1, Math.max(0, (innerHeight * 0.75 - r.top) / r.height));
-    tl.style.setProperty('--p', p.toFixed(3));
+    soll = Math.max(soll, Math.min(1, Math.max(0, (innerHeight * 0.8 - r.top) / r.height)));   // only forward
   };
-  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(draw); } }, { passive: true });
-  draw();
+  const tlFrame = (now) => {
+    const dt = Math.min(50, now - (tlZeit || now)); tlZeit = now;
+    const diff = soll - ist;
+    // ease out, but never faster than the whole line in 1.6 s – so it always visibly "drives"
+    ist += Math.sign(diff) * Math.min(Math.abs(diff), Math.max(Math.abs(diff) * (1 - Math.exp(-dt / 220)), dt / 4000), dt / 1600);
+    tl.style.setProperty('--p', ist.toFixed(4));
+    const spitze = TOP + ist * (tl.offsetHeight - TOP);
+    for (const pt of punkte) {
+      if (!pt.an && spitze >= pt.li.offsetTop + 13) { pt.an = true; pt.li.classList.add('erreicht'); }
+    }
+    if (Math.abs(soll - ist) > 0.0005) requestAnimationFrame(tlFrame);
+    else { tlLauf = false; tlZeit = 0; }
+  };
+  const tlWecken = () => { zielBerechnen(); if (!tlLauf && soll > ist) { tlLauf = true; requestAnimationFrame(tlFrame); } };
+  addEventListener('scroll', tlWecken, { passive: true });
+  addEventListener('resize', tlWecken);
+  tlWecken();
 })();

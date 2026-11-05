@@ -340,8 +340,16 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
   .js .rise.in .tags li { transition-delay: calc(var(--n, 0) * 50ms + 120ms); }   /* --n = position, set by site.js */
 
   /* Timeline dots pop when they come into view */
-  .js .timeline li.rise::before { transform: scale(0); transition: transform .5s cubic-bezier(.3, 1.6, .4, 1) .15s; }
-  .js .timeline li.rise.in::before { transform: none; }
+  /* Timeline (site.js adds .faehrt): line drives down, each dot pops when the tip reaches it */
+  .timeline.faehrt::after { transform: scaleY(var(--p, 0)); }
+  .timeline.faehrt li::before { transform: scale(0); }
+  .timeline.faehrt li > * { opacity: 0; transform: translate3d(-14px, 0, 0); transition: opacity .5s ease, transform .6s var(--ease-out); }
+  .timeline.faehrt li.erreicht > * { opacity: 1; transform: none; }
+  .timeline.faehrt li.erreicht > :nth-child(2) { transition-delay: .07s; }
+  .timeline.faehrt li.erreicht > :nth-child(3) { transition-delay: .14s; }
+  .timeline.faehrt li.erreicht::before { animation: punkt .7s var(--spring) both; }
+  .timeline.faehrt li.erreicht::after { animation: welle-punkt 1s ease-out both; }
+  .timeline.faehrt li.erreicht .when { animation: aufleuchten 1.2s ease both; }
 
   /* Map: borders draw themselves, Styria lights up, the pin drops on Graz and keeps pulsing */
   .js .map .land { stroke-dasharray: 1; stroke-dashoffset: 1; fill-opacity: 0; }
@@ -489,3 +497,10 @@ body > :is(header, main, footer) { position: relative; z-index: 1; }
 @media (prefers-reduced-transparency: reduce) { .card, .project { background: var(--card); } .aurora { display: none; } }
 @media (prefers-reduced-motion: reduce) { .hero { transform: none; opacity: 1; } .funkeln, .aurora { display: none; } }
 @media print { .himmel, .zeiger-licht, .fortschritt { display: none; } }
+
+/* Timeline dot: ring that bursts when the line reaches it (sits exactly on the dot) */
+.timeline li::after { content: ""; position: absolute; left: -31px; top: 6px; width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--accent); opacity: 0; pointer-events: none; }
+@keyframes punkt { 0% { transform: scale(0); background: var(--accent); } 55% { transform: scale(1.45); background: var(--accent); } 100% { transform: scale(1); } }
+@keyframes welle-punkt { 0% { opacity: .9; transform: scale(1); } 100% { opacity: 0; transform: scale(3.4); } }
+@keyframes aufleuchten { 0% { text-shadow: 0 0 0 transparent; } 30% { text-shadow: 0 0 14px color-mix(in srgb, var(--accent) 70%, transparent); } 100% { text-shadow: 0 0 0 transparent; } }
