@@ -99,18 +99,5 @@
     meteor(e.clientX, e.clientY);
   });
 
-  // ---- Light/dark switch: the whole page fades slowly (1.2 s) from one mode into the other (View Transitions crossfade –
-  // runs on the GPU from two snapshots). The profile picture's face is identical in both, so only its background changes. ----
-  if (!reduce && document.startViewTransition) {
-    document.addEventListener('click', (e) => {
-      const b = e.target.closest && e.target.closest('[data-modus-schalter]');
-      if (!b || !window.slxtModus) return;
-      e.preventDefault(); e.stopImmediatePropagation();
-      // meanwhile: pause endless animations and the glass blur, so the fade has the GPU to itself
-      const root = document.documentElement;
-      root.classList.add('modus-wechsel');
-      const vt = document.startViewTransition(() => window.slxtModus.wechseln());
-      vt.finished.finally(() => requestAnimationFrame(() => root.classList.remove('modus-wechsel')));
-    }, true);   // capture: runs before modus.js' own click handler
-  }
+  // Light/dark switch: the slow crossfade now lives in modus.js (shared by all slxt pages).
 })();
