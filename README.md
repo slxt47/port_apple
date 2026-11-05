@@ -27,7 +27,7 @@ keine Icon-CDNs, keine eingebettete Karte – beim Laden werden rund 20 KB über
 Geprüft gegen Apples Human Interface Guidelines:
 
 - Systemschrift (SF Pro / SF Pro Rounded auf Apple-Geräten), Fließtext 17 px.
-- Hell und dunkel automatisch nach Systemeinstellung, alle Kontraste ≥ 5,6 : 1.
+- Standard dunkel, Schalter oben rechts für hell (Wahl bleibt im Browser gespeichert), alle Kontraste ≥ 5,6 : 1.
 - Tippflächen ≥ 44 px, sichtbarer Tastatur-Fokus, „Zum Inhalt springen“-Link.
 - Animationen (Intro, gleitende Navigation, Lichtkegel auf Karten, Zeitleiste und Karte zeichnen
   sich) – bei **„Weniger Bewegung“** komplett aus. „Weniger Transparenz“ und „Mehr Kontrast“
@@ -50,8 +50,8 @@ Lokal ansehen:
 python3 -m http.server 8000      # dann http://localhost:8000
 ```
 
-> Wird die Seite hinter einem Cache (z. B. Cloudflare) ausgeliefert: Nach Änderungen an CSS/JS
-> die Versionsnummer `?v=…` in der `index.html` erhöhen.
+> Wird die Seite hinter einem Cache (z. B. Cloudflare) ausgeliefert: Cloudflare ignoriert `?v=…`.
+> Nach größeren Änderungen an CSS/JS den Dateinamen ändern (oder den Cache leeren).
 
 ## Änderungen (Oktober 2026)
 
