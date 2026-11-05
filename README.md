@@ -29,8 +29,13 @@ Geprüft gegen Apples Human Interface Guidelines:
 - Systemschrift (SF Pro / SF Pro Rounded auf Apple-Geräten), Fließtext 17 px.
 - Standard dunkel, Schalter oben rechts für hell (Wahl bleibt im Browser gespeichert), alle Kontraste ≥ 5,6 : 1.
 - Tippflächen ≥ 44 px, sichtbarer Tastatur-Fokus, „Zum Inhalt springen“-Link.
-- Animationen (Intro, gleitende Navigation, Lichtkegel auf Karten, Zeitleiste und Karte zeichnen
-  sich) – bei **„Weniger Bewegung“** komplett aus. „Weniger Transparenz“ und „Mehr Kontrast“
+- Sternenhimmel wie auf slxt.org und dem Dashboard (dunkel: Sterne in zwei Ebenen mit Parallax,
+  funkelnde Sterne, Sternschnuppen, Klick in den Himmel = eigene Sternschnuppe, sanftes Polarlicht;
+  hell: Abenddämmerung). Hell/Dunkel-Wechsel als wachsender Kreis vom Schalter (View Transitions).
+- Animationen (Intro, gleitende Navigation, Fortschrittsbalken, Hero-Parallax, 3D-Neigung und
+  Lichtrand auf Karten, magnetische Knöpfe mit Welle, Zeiger-Licht, Zeitleiste und Karte zeichnen
+  sich) – nur `transform`/`opacity`, ein gemeinsamer `requestAnimationFrame`-Takt, der im Ruhezustand
+  stoppt. Bei **„Weniger Bewegung“** komplett aus. „Weniger Transparenz“ und „Mehr Kontrast“
   werden ebenfalls beachtet.
 
 ## Aufbau
@@ -38,7 +43,8 @@ Geprüft gegen Apples Human Interface Guidelines:
 ```
 index.html               Seite inkl. SVG-Icons und Karte
 assets/css/style.css     Farben, Layout, Animationen
-assets/js/site.js        aktive Navigation, Einblenden, Lichtkegel, Zeitleiste
+assets/js/site.js        aktive Navigation, Einblenden, Lichtkegel, Neigung, Zeitleiste
+assets/js/himmel.js      Sternenhimmel, Sternschnuppen, Kreisblende beim Moduswechsel (auch /contact/)
 assets/js/contact.js     Kontaktformular (Token holen, prüfen, senden)
 contact/index.html       Kontaktseite
 assets/images/           Memoji (WebP 192/384 px), Favicon

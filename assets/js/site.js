@@ -1,4 +1,5 @@
-// Portfolio: current section in the top bar, rise-in, card spotlight, timeline drawing, map trigger.
+// Portfolio: current section in the top bar, rise-in, card spotlight + tilt, timeline drawing, map trigger,
+// scroll progress, hero parallax, magnetic buttons, ripples, pointer glow. Sky/stars: himmel.js.
 // The page works without it; with "reduce motion" only the section marker stays.
 (() => {
   'use strict';
@@ -107,6 +108,90 @@
     start.observe(map);
   } else if (map) {
     map.classList.add('zoomed', 'fertig');
+  }
+
+  // ================= More motion (05.11.2026) – all per-frame work goes through one requestAnimationFrame =================
+  const fein = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const lerp = (a, b, k) => a + (b - a) * k;
+
+  // Tag pop-in order (CSS reads --n); afterwards hovering reacts without delay
+  document.querySelectorAll('.tags').forEach((ul) => [...ul.children].forEach((li, i) => li.style.setProperty('--n', i)));
+  const tagsFertig = new MutationObserver((ms) => {
+    for (const m of ms) if (m.target.classList.contains('in')) setTimeout(() => m.target.querySelectorAll('.tags li').forEach((li) => { li.style.transitionDelay = '0s'; }), 1400);
+  });
+  items.forEach((el) => tagsFertig.observe(el, { attributes: true, attributeFilter: ['class'] }));
+
+  // Scroll progress in the top bar + hero drifting away
+  const bar = document.querySelector('.topbar');
+  const prog = document.createElement('div'); prog.className = 'fortschritt'; prog.setAttribute('aria-hidden', 'true'); bar.append(prog);
+  const hero = document.querySelector('.hero');
+  let sTick = false;
+  const sFrame = () => {
+    sTick = false;
+    const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    prog.style.transform = `scaleX(${Math.min(1, scrollY / max).toFixed(4)})`;
+    const h = hero.offsetHeight, p = Math.min(1, Math.max(0, scrollY / h));
+    hero.style.setProperty('--hy', (p * h * 0.18).toFixed(1) + 'px');
+    hero.style.setProperty('--ho', Math.max(0, 1 - p * 1.35).toFixed(3));   // gone before it could overlap the projects
+  };
+  addEventListener('scroll', () => { if (!sTick) { sTick = true; requestAnimationFrame(sFrame); } }, { passive: true });
+  sFrame();
+
+  // Ripple on every button press
+  document.addEventListener('pointerdown', (e) => {
+    const b = e.target.closest('.btn'); if (!b) return;
+    const r = b.getBoundingClientRect(), d = Math.hypot(r.width, r.height) * 2;
+    const w = document.createElement('span'); w.className = 'welle';
+    Object.assign(w.style, { width: d + 'px', height: d + 'px', left: e.clientX - r.left - d / 2 + 'px', top: e.clientY - r.top - d / 2 + 'px' });
+    b.append(w);
+    w.animate([{ transform: 'scale(0)', opacity: 0.3 }, { transform: 'scale(1)', opacity: 0 }], { duration: 700, easing: 'cubic-bezier(.2, .8, .2, 1)' }).onfinish = () => w.remove();
+  });
+
+  if (fein) {
+    // One loop eases everything that follows the pointer: glow, card tilt, magnetic buttons
+    const licht = document.createElement('div'); licht.className = 'zeiger-licht'; licht.setAttribute('aria-hidden', 'true'); document.body.prepend(licht);
+    const ziel = { x: innerWidth / 2, y: innerHeight / 3 }, ist = { ...ziel };
+    const karten = [...document.querySelectorAll('.project')].map((el) => ({ el, tx: 0, ty: 0, x: 0, y: 0 }));
+    const knoepfe = [...document.querySelectorAll('.btn, .modus-knopf')].map((el) => ({ el, tx: 0, ty: 0, x: 0, y: 0 }));
+    let laeuft = false;
+    const frame = () => {
+      let ruhig = true;
+      ist.x = lerp(ist.x, ziel.x, 0.12); ist.y = lerp(ist.y, ziel.y, 0.12);
+      licht.style.transform = `translate3d(${ist.x.toFixed(1)}px, ${ist.y.toFixed(1)}px, 0)`;
+      if (Math.abs(ist.x - ziel.x) + Math.abs(ist.y - ziel.y) > 0.3) ruhig = false;
+      for (const k of karten) {
+        k.x = lerp(k.x, k.tx, 0.14); k.y = lerp(k.y, k.ty, 0.14);
+        const ang = Math.hypot(k.x, k.y);
+        k.el.style.rotate = ang < 0.01 ? '' : `${(-k.y).toFixed(4)} ${k.x.toFixed(4)} 0 ${(ang * 7).toFixed(3)}deg`;
+        if (Math.abs(k.x - k.tx) + Math.abs(k.y - k.ty) > 0.001) ruhig = false;
+      }
+      for (const k of knoepfe) {
+        k.x = lerp(k.x, k.tx, 0.18); k.y = lerp(k.y, k.ty, 0.18);
+        k.el.style.translate = Math.abs(k.x) + Math.abs(k.y) < 0.05 ? '' : `${k.x.toFixed(2)}px ${k.y.toFixed(2)}px`;
+        if (Math.abs(k.x - k.tx) + Math.abs(k.y - k.ty) > 0.05) ruhig = false;
+      }
+      laeuft = !ruhig;
+      if (laeuft) requestAnimationFrame(frame);
+    };
+    const wecken = () => { if (!laeuft) { laeuft = true; requestAnimationFrame(frame); } };
+    addEventListener('pointermove', (e) => { ziel.x = e.clientX; ziel.y = e.clientY; licht.classList.add('an'); wecken(); }, { passive: true });
+    document.documentElement.addEventListener('pointerleave', () => licht.classList.remove('an'));
+    for (const k of karten) {
+      k.el.addEventListener('pointermove', (e) => {
+        const r = k.el.getBoundingClientRect();
+        k.tx = ((e.clientX - r.left) / r.width - 0.5) * 2 * (Math.min(1, 420 / r.width));   // wide cards tilt less
+        k.ty = ((e.clientY - r.top) / r.height - 0.5) * 2;
+        k.tx *= 0.5; k.ty *= 0.5; wecken();
+      });
+      k.el.addEventListener('pointerleave', () => { k.tx = 0; k.ty = 0; wecken(); });
+    }
+    for (const k of knoepfe) {
+      k.el.addEventListener('pointermove', (e) => {
+        const r = k.el.getBoundingClientRect();
+        k.tx = (e.clientX - r.left - r.width / 2) * 0.25; k.ty = (e.clientY - r.top - r.height / 2) * 0.35; wecken();
+      });
+      k.el.addEventListener('pointerleave', () => { k.tx = 0; k.ty = 0; wecken(); });
+    }
   }
 
   // ---- Timeline line draws itself as you scroll past ----

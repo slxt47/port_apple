@@ -14,6 +14,15 @@
   --grad: linear-gradient(100deg, #6d4aff 0%, #3b82f6 100%);
   --bar: rgba(245, 245, 247, .72);
   --shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 28px rgba(0, 0, 0, .06);
+  --shadow-hoch: 0 2px 4px rgba(40, 20, 90, .06), 0 22px 48px rgba(40, 20, 90, .14);
+  /* Sky like slxt.org: dusk in light mode, night with stars in dark mode */
+  --sky1: #dfe5ff; --sky2: #efe3f8; --sky3: #fde7da;
+  --glass: rgba(255, 255, 255, .8);      /* cards over the sky; text contrast checked on the opaque mix */
+  --meteor: 124, 92, 255;
+  --stars: 0;
+  --aurora-a: rgba(124, 92, 255, .22); --aurora-b: rgba(59, 130, 246, .18); --aurora-c: rgba(255, 140, 190, .16);
+  --ease-out: cubic-bezier(.2, .8, .2, 1);
+  --spring: cubic-bezier(.3, 1.5, .4, 1);
   --r: 22px;
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --display: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
@@ -31,8 +40,14 @@
   --on-accent: #0b0b10;
   --live: #3ddc6f;
   --grad: linear-gradient(100deg, #a993ff 0%, #7cb4ff 100%);
-  --bar: rgba(11, 11, 16, .7);
+  --bar: rgba(8, 9, 24, .66);
   --shadow: 0 0 0 1px var(--line);
+  --shadow-hoch: 0 0 0 1px rgba(255, 255, 255, .12), 0 24px 60px rgba(0, 0, 0, .55);
+  --sky1: #04050d; --sky2: #0b0e2a; --sky3: #1a1240;
+  --glass: rgba(22, 22, 40, .74);
+  --meteor: 190, 215, 255;
+  --stars: 1;
+  --aurora-a: rgba(124, 92, 255, .2); --aurora-b: rgba(59, 130, 246, .14); --aurora-c: rgba(190, 80, 255, .1);
 }
 @media (prefers-contrast: more) {
   :root { --sec: var(--text); --line: currentColor; }
@@ -44,6 +59,7 @@ html { scroll-behavior: smooth; scroll-padding-top: 72px; -webkit-text-size-adju
 body {
   margin: 0;
   background: var(--bg);
+  overflow-x: hidden;
   color: var(--text);
   font: 400 1.0625rem/1.55 var(--font);   /* 17 px, Apple's default body size */
   -webkit-font-smoothing: antialiased;
@@ -123,10 +139,10 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 .section-head h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 700; }
 .section-head p { color: var(--sec); margin-top: 6px; max-width: 640px; }
 
-.card, .project { background: var(--card); border-radius: var(--r); box-shadow: var(--shadow); }
+.card, .project { background: var(--glass); border-radius: var(--r); box-shadow: var(--shadow); }
 
 /* Projects */
-.projects { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; grid-template-columns: 1fr; }
+.projects { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; grid-template-columns: 1fr; perspective: 1400px; }
 @media (min-width: 680px) { .projects { grid-template-columns: repeat(2, 1fr); } .project.feature, .project.wide { grid-column: 1 / -1; } }
 @media (min-width: 1000px) { .projects { grid-template-columns: repeat(3, 1fr); } .project.feature { grid-column: span 2; grid-row: span 1; } .project.wide { grid-column: 1 / -1; } .project.span2 { grid-column: span 2; } }
 .project { position: relative; overflow: hidden; display: flex; flex-direction: column; padding: 24px; min-height: 100%;
@@ -138,7 +154,7 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
   background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 13%, transparent), transparent 60%);
 }
 @media (hover: hover) and (pointer: fine) {
-  .project:hover { translate: 0 -4px; box-shadow: 0 2px 4px rgba(0, 0, 0, .05), 0 18px 40px rgba(0, 0, 0, .1); }
+  .project:hover { translate: 0 -6px; box-shadow: var(--shadow-hoch); }
   .project:hover::after { opacity: 1; }
   .project:hover .p-icon { transform: rotate(-8deg) scale(1.08); }
   .links a:hover .ic { transform: translate(2px, -2px); }
@@ -157,7 +173,8 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 .tags li { font: 500 .8125rem/1 var(--font); color: var(--sec); padding: 7px 10px; border-radius: 999px; border: 1px solid var(--line); }
 .p-foot { margin-top: auto; padding-top: 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 14px; }
 .host { display: inline-flex; align-items: center; gap: 8px; font: .8125rem var(--mono); color: var(--sec); }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 3px color-mix(in srgb, var(--live) 22%, transparent); }
+.dot { position: relative; width: 8px; height: 8px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 3px color-mix(in srgb, var(--live) 22%, transparent); }
+.dot::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--live); opacity: 0; }
 .links { display: inline-flex; gap: 2px; }
 .links a .ic { transition: transform .2s ease; }
 .links a { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 10px; border-radius: 10px; font-weight: 600; font-size: .9375rem; }
@@ -315,13 +332,12 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
   .grad { background-size: 220% 100%; animation: shimmer 9s ease-in-out infinite alternate; }
 
   /* Live dots breathe */
-  .dot { animation: live 2.4s ease-out infinite; }
+  .dot::after { animation: live 2.4s ease-out infinite; }
 
   /* Tags pop in one after another once their card is visible */
   .js .rise .tags li { opacity: 0; transform: scale(.85); transition: opacity .4s, transform .4s cubic-bezier(.3, 1.5, .4, 1); }
   .js .rise.in .tags li { opacity: 1; transform: none; }
-  .js .rise.in .tags li:nth-child(2) { transition-delay: .05s; } .js .rise.in .tags li:nth-child(3) { transition-delay: .1s; }
-  .js .rise.in .tags li:nth-child(4) { transition-delay: .15s; } .js .rise.in .tags li:nth-child(5) { transition-delay: .2s; }
+  .js .rise.in .tags li { transition-delay: calc(var(--n, 0) * 50ms + 120ms); }   /* --n = position, set by site.js */
 
   /* Timeline dots pop when they come into view */
   .js .timeline li.rise::before { transform: scale(0); transition: transform .5s cubic-bezier(.3, 1.6, .4, 1) .15s; }
@@ -351,7 +367,7 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 @keyframes pop { from { opacity: 0; transform: scale(.6) rotate(-12deg); } to { opacity: 1; transform: none; } }
 @keyframes bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -7px; } }
 @keyframes shimmer { from { background-position: 0% 50%; } to { background-position: 100% 50%; } }
-@keyframes live { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--live) 45%, transparent); } 80%, 100% { box-shadow: 0 0 0 7px transparent; } }
+@keyframes live { 0% { opacity: .55; transform: scale(1); } 80%, 100% { opacity: 0; transform: scale(2.8); } }
 @keyframes draw { to { stroke-dashoffset: 0; } }
 @keyframes fill { to { fill-opacity: 1; } }
 @keyframes drop { from { opacity: 0; transform: translateY(-60px); } 60% { opacity: 1; } to { opacity: 1; transform: none; } }
@@ -374,3 +390,102 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 .modus-knopf:active { transform: scale(.94); }
 @media (prefers-reduced-motion: reduce) { .modus-knopf { transition: none; } }
 @media (max-width: 420px) { .nav a { padding: 0 9px; } .topbar-inner { gap: 6px; } }
+
+/* ================= Sky + motion (05.11.2026) =================
+   Everything that moves animates transform/opacity only, so it stays on the GPU and feels smooth at 120 Hz.
+   Off with "reduce motion" (the global rule above stops animations/transitions; JS skips the rest). */
+.himmel { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  background: linear-gradient(180deg, var(--sky1), var(--sky2) 55%, var(--sky3)); }
+.sternlage { position: absolute; left: 0; top: 0; width: 100%; opacity: var(--stars); transition: opacity .8s ease; will-change: transform; }
+.sternlage canvas { display: block; width: 100%; }
+.sternlage.fern { opacity: calc(var(--stars) * .7); }
+.funkeln { position: absolute; inset: 0; }
+.funkeln i { position: absolute; width: var(--g); height: var(--g); border-radius: 50%; background: #fff;
+  box-shadow: 0 0 6px 1px rgba(205, 216, 255, .8); opacity: .15; animation: funkeln var(--d) ease-in-out var(--v) infinite; }
+@keyframes funkeln { 0%, 100% { opacity: .12; transform: scale(.6); } 50% { opacity: 1; transform: scale(1.15); } }
+.sternschnuppen { position: absolute; inset: 0; overflow: hidden; }
+.meteor { position: absolute; top: 0; left: 0; height: 2px; border-radius: 2px; opacity: 0; will-change: transform, opacity;
+  background: linear-gradient(90deg, rgba(var(--meteor), 0), rgba(var(--meteor), .4) 60%, rgba(255, 255, 255, .95)); transform-origin: 100% 50%; }
+.meteor::after { content: ""; position: absolute; right: -2px; top: 50%; width: 4px; height: 4px; margin-top: -2px; border-radius: 50%;
+  background: #fff; box-shadow: 0 0 6px 2px rgba(var(--meteor), .9), 0 0 16px 5px rgba(var(--meteor), .4); }
+/* Aurora: three soft light blobs drifting slowly behind the intro */
+.aurora { position: absolute; inset: -20vh -20vw auto; height: 110vh; opacity: var(--aurora, 1); }
+.aurora i { position: absolute; width: 60vmax; height: 60vmax; border-radius: 50%; will-change: transform; }
+.aurora i:nth-child(1) { left: 5%; top: -10%; background: radial-gradient(closest-side, var(--aurora-a), transparent); animation: schweben1 22s ease-in-out infinite alternate; }
+.aurora i:nth-child(2) { right: 0; top: 5%; background: radial-gradient(closest-side, var(--aurora-b), transparent); animation: schweben2 26s ease-in-out infinite alternate; }
+.aurora i:nth-child(3) { left: 30%; top: 25%; width: 45vmax; height: 45vmax; background: radial-gradient(closest-side, var(--aurora-c), transparent); animation: schweben3 30s ease-in-out infinite alternate; }
+@keyframes schweben1 { to { transform: translate3d(12vw, 8vh, 0) scale(1.15); } }
+@keyframes schweben2 { to { transform: translate3d(-14vw, 10vh, 0) scale(.9); } }
+@keyframes schweben3 { to { transform: translate3d(8vw, -10vh, 0) scale(1.2); } }
+body > :is(header, main, footer) { position: relative; z-index: 1; }
+.topbar { position: sticky; z-index: 10; }
+.footer { border-top-color: var(--line); }
+
+/* Scroll progress along the bottom edge of the top bar */
+.fortschritt { position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--grad); transform-origin: 0 50%; transform: scaleX(0); will-change: transform; }
+
+/* Glow that follows the pointer across the page (fine pointers only, set by site.js) */
+.zeiger-licht { position: fixed; left: 0; top: 0; z-index: 0; width: 640px; height: 640px; margin: -320px 0 0 -320px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 12%, transparent), transparent); opacity: 0; transition: opacity .5s ease; will-change: transform; }
+.zeiger-licht.an { opacity: 1; }
+
+/* Hero: drifts up and fades a little while you scroll away (site.js sets --hy / --ho) */
+.hero { transform: translate3d(0, var(--hy, 0), 0); opacity: var(--ho, 1); will-change: transform, opacity; }
+.avatar { transition: rotate .4s var(--spring), scale .4s var(--spring); }
+.brand img { transition: rotate .5s var(--spring), scale .5s var(--spring); }
+.brand:hover img { rotate: -14deg; scale: 1.12; }
+
+/* Buttons: magnetic pull (translate, set by site.js), press scale, ripple, shine sweep */
+.btn { position: relative; overflow: hidden; isolation: isolate; transition: transform .2s var(--spring), filter .15s ease, box-shadow .3s ease; }
+.btn.primary { box-shadow: 0 6px 22px color-mix(in srgb, var(--accent) 35%, transparent); }
+.btn.primary:hover { box-shadow: 0 10px 32px color-mix(in srgb, var(--accent) 50%, transparent); }
+.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, .35) 50%, transparent 70%); transform: translateX(-120%); }
+.btn:hover::before { transform: translateX(120%); transition: transform .8s var(--ease-out); }
+.welle { position: absolute; z-index: -1; border-radius: 50%; background: currentColor; opacity: .25; pointer-events: none; transform: scale(0); }
+
+/* Section titles: gradient underline sweeps in */
+.section-head h2 { position: relative; display: inline-block; }
+.section-head h2::after { content: ""; position: absolute; left: 0; bottom: -6px; width: 56px; height: 4px; border-radius: 4px; background: var(--grad); transform-origin: 0 50%; }
+
+/* Cards: 3D tilt (rotate, set by site.js), lit edge on hover */
+.project { transform-style: flat; }
+.project::before { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: inherit; pointer-events: none; padding: 1px; opacity: 0; transition: opacity .35s ease;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 80%, transparent), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+@media (hover: hover) and (pointer: fine) { .project:hover::before { opacity: 1; } }
+.tags li { transition: translate .3s var(--spring), border-color .2s ease, color .2s ease, background .2s ease; }
+@media (hover: hover) and (pointer: fine) {
+  .tags li:hover { translate: 0 -2px; color: var(--text); border-color: color-mix(in srgb, var(--accent) 55%, transparent); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+  .list a .ic:not(.end) { transition: transform .35s var(--spring); }
+  .list a:hover .ic:not(.end) { transform: scale(1.15) rotate(-6deg); }
+  .list a .ic.end { transition: transform .25s var(--ease-out); }
+  .list a:hover .ic.end { transform: translate(3px, -3px); }
+  .timeline li h3 { transition: translate .3s var(--ease-out); }
+  .timeline li:hover h3 { translate: 4px 0; }
+}
+.list a { transition: background .2s ease; }
+
+/* Light/dark switch: icon spins in, circle reveal via View Transitions (himmel.js) */
+.modus-knopf svg { animation: dreh .55s var(--spring); }
+@keyframes dreh { from { opacity: 0; transform: rotate(-120deg) scale(.4); } }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { z-index: 2; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Rise-in keeps the hover lift smooth (own transition list, the tilt itself is driven per frame) */
+  .js .project.rise { transition: opacity .7s ease, transform .8s var(--ease-out), translate .45s var(--ease-out), box-shadow .45s ease; }
+  .js .rise { transform: translate3d(0, 28px, 0) scale(.98); }
+  .js .rise.in { transform: none; }
+  .js .section-head h2::after { transform: scaleX(0); transition: transform .9s var(--ease-out) .25s; }
+  .js .section-head.in h2::after { transform: scaleX(1); }
+  .js .section-head p { opacity: 0; transform: translateY(10px); transition: opacity .6s ease .15s, transform .6s var(--ease-out) .15s; }
+  .js .section-head.in p { opacity: 1; transform: none; }
+  /* Project icons pop in with a little spin */
+  .js .project.rise .p-icon { transform: scale(.4) rotate(-30deg); opacity: 0; transition: transform .7s var(--spring) .2s, opacity .4s ease .2s; }
+  .js .project.rise.in .p-icon { transform: none; opacity: 1; }
+  .js .project.rise.in:hover .p-icon { transform: rotate(-8deg) scale(1.08); transition-delay: 0s; }
+  .grad { animation: shimmer 9s ease-in-out infinite alternate; }
+}
+@media (prefers-reduced-transparency: reduce) { .card, .project { background: var(--card); } .aurora { display: none; } }
+@media (prefers-reduced-motion: reduce) { .hero { transform: none; opacity: 1; } .funkeln, .aurora { display: none; } }
+@media print { .himmel, .zeiger-licht, .fortschritt { display: none; } }
