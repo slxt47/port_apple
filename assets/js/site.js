@@ -31,12 +31,20 @@
   // ---- In-page links (nav, "See the projects", logo) scroll smoothly WITHOUT putting #… into the address bar,
   // so a reload starts at the top again. A reload that still carries a hash (older link) also starts at the top;
   // a fresh visit via a shared link like slxt.dev/#contact still jumps there.
+  // Only a RELOAD starts at the top. Back/forward returns to where you were: the browser's own restoration is off
+  // (it would also restore on reload), so the position is saved when leaving and put back on back/forward.
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   const navTyp = (performance.getEntriesByType('navigation')[0] || {}).type;
-  if (navTyp === 'reload' || navTyp === 'back_forward') {
+  const MERK = 'scroll:' + location.pathname;
+  addEventListener('pagehide', () => { try { sessionStorage.setItem(MERK, String(Math.round(scrollY))); } catch (e) { /* privat */ } });
+  if (navTyp === 'reload') {
     if (location.hash) history.replaceState(null, '', location.pathname + location.search);
     scrollTo(0, 0);
     addEventListener('load', () => scrollTo(0, 0), { once: true });
+  } else if (navTyp === 'back_forward') {
+    let y = 0; try { y = Number(sessionStorage.getItem(MERK)) || 0; } catch (e) { /* privat */ }
+    const hin = () => scrollTo(0, y);
+    hin(); addEventListener('load', hin, { once: true });
   }
   document.addEventListener('click', (e) => {
     const a = e.target.closest('a[href^="#"]');
