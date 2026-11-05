@@ -1,5 +1,5 @@
 /* Portfolio – slxt.dev / port.slxt.org
-   System fonts (SF Pro on Apple devices), light + dark from the system setting, no external requests.
+   System fonts (SF Pro on Apple devices), light + dark, dark by default with a switch (modus.js, shared with the other slxt sites), no external requests.
    Contrast checked (WCAG): text ≥ 15:1, secondary ≥ 5.8:1, accent ≥ 5.6:1 in both appearances. */
 
 :root {
@@ -18,22 +18,21 @@
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --display: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "SF Pro Display", "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  color-scheme: light dark;
+  color-scheme: light;
 }
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b0b10;
-    --card: #17171e;
-    --line: rgba(255, 255, 255, .09);
-    --text: #f2f2f5;
-    --sec: #a5a5b2;    /* 8.1:1 */
-    --accent: #a993ff; /* 7.8:1 */
-    --on-accent: #0b0b10;
-    --live: #3ddc6f;
-    --grad: linear-gradient(100deg, #a993ff 0%, #7cb4ff 100%);
-    --bar: rgba(11, 11, 16, .7);
-    --shadow: 0 0 0 1px var(--line);
-  }
+:root[data-modus="dunkel"] {
+  color-scheme: dark;
+  --bg: #0b0b10;
+  --card: #17171e;
+  --line: rgba(255, 255, 255, .09);
+  --text: #f2f2f5;
+  --sec: #a5a5b2;    /* 8.1:1 */
+  --accent: #a993ff; /* 7.8:1 */
+  --on-accent: #0b0b10;
+  --live: #3ddc6f;
+  --grad: linear-gradient(100deg, #a993ff 0%, #7cb4ff 100%);
+  --bar: rgba(11, 11, 16, .7);
+  --shadow: 0 0 0 1px var(--line);
 }
 @media (prefers-contrast: more) {
   :root { --sec: var(--text); --line: currentColor; }
@@ -79,7 +78,7 @@ code { font: .92em var(--mono); }
 .brand { display: inline-flex; align-items: center; gap: 8px; color: var(--text); font: 600 1.0625rem var(--display); min-height: 44px; }
 .brand:hover { text-decoration: none; }
 .brand img { border-radius: 50%; background: var(--card); }
-.nav { position: relative; display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.nav { margin-left: auto; position: relative; display: flex; gap: 4px; list-style: none; margin: 0; padding: 0; }
 .nav::before {
   content: ""; position: absolute; left: 0; top: 50%; height: 36px; width: var(--w, 0); border-radius: 999px;
   background: color-mix(in srgb, var(--text) 8%, transparent); opacity: var(--o, 0);
@@ -273,10 +272,8 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
 .done h2 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; }
 .done p { color: var(--sec); margin: 10px 0 24px; overflow-wrap: anywhere; }
 .done strong { color: var(--text); }
-@media (prefers-color-scheme: dark) {
-  .field input[aria-invalid="true"], .field textarea[aria-invalid="true"] { border-color: #ff6b6b; }
-  .err, .status.bad { color: #ff8a8a; }
-}
+:root[data-modus="dunkel"] .field input[aria-invalid="true"], :root[data-modus="dunkel"] .field textarea[aria-invalid="true"] { border-color: #ff6b6b; }
+:root[data-modus="dunkel"] .err, :root[data-modus="dunkel"] .status.bad { color: #ff8a8a; }
 @media (prefers-reduced-motion: no-preference) {
   .done:not([hidden]) { animation: up .5s cubic-bezier(.2, .8, .2, 1) both; }
   .done:not([hidden]) .done-ic { animation: pop .6s cubic-bezier(.3, 1.5, .4, 1) both .1s; }
@@ -366,3 +363,14 @@ main { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
   .brand span { display: none; }
   .nav a { padding: 0 10px; }
 }
+
+/* ---------- Light/dark switch (top bar, right) ---------- */
+.modus-knopf {
+  flex: none; width: 40px; height: 40px; border-radius: 999px; display: grid; place-items: center; cursor: pointer;
+  border: 1px solid var(--line); background: var(--card); color: var(--text); box-shadow: var(--shadow);
+  transition: transform .15s ease, background .2s ease;
+}
+.modus-knopf:hover { background: color-mix(in srgb, var(--text) 8%, var(--card)); }
+.modus-knopf:active { transform: scale(.94); }
+@media (prefers-reduced-motion: reduce) { .modus-knopf { transition: none; } }
+@media (max-width: 420px) { .nav a { padding: 0 9px; } .topbar-inner { gap: 6px; } }

@@ -37,7 +37,7 @@ Geprüft gegen Apples Human Interface Guidelines:
 
 ```
 index.html               Seite inkl. SVG-Icons und Karte
-assets/css/site.css      Farben, Layout, Animationen
+assets/css/style.css     Farben, Layout, Animationen
 assets/js/site.js        aktive Navigation, Einblenden, Lichtkegel, Zeitleiste
 assets/js/contact.js     Kontaktformular (Token holen, prüfen, senden)
 contact/index.html       Kontaktseite
