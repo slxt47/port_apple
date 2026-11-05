@@ -477,9 +477,7 @@ body > :is(header, main, footer) { position: relative; z-index: 1; }
 /* Light/dark switch: icon spins in, page crossfades via View Transitions (himmel.js) */
 .modus-knopf svg { animation: dreh .55s var(--spring); }
 @keyframes dreh { from { opacity: 0; transform: rotate(-120deg) scale(.4); } }
-/* Mode switch = slow crossfade of the whole page (default blend keeps identical pixels – like the face – steady) */
-::view-transition-group(root) { animation-duration: 1.2s; }
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: 1.2s; animation-timing-function: cubic-bezier(.4, 0, .2, 1); }
+/* Mode switch = slow crossfade of the whole page, timing lives in modus.js (identical pixels – like the face – stay steady) */
 
 @media (prefers-reduced-motion: no-preference) {
   /* Rise-in keeps the hover lift smooth (own transition list, the tilt itself is driven per frame) */
@@ -554,8 +552,7 @@ main, .topbar-inner, .footer { padding-left: max(16px, env(safe-area-inset-left)
 /* Sections reached via in-page links never get a focus frame from a mouse click */
 section[tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
 
-/* Light/dark switch: freeze everything else for the 0.7 s of the circle reveal (smooth, no stutter) */
-.modus-wechsel *, .modus-wechsel *::before, .modus-wechsel *::after { transition: none !important; animation-play-state: paused !important; }
+/* Light/dark crossfade (modus.js pauses all animations via .modus-wechsel): keep the switch icon spinning, swap the costly blur */
 .modus-wechsel .modus-knopf svg { animation-play-state: running !important; }
 .modus-wechsel .topbar { backdrop-filter: none; -webkit-backdrop-filter: none; background: linear-gradient(var(--bar), var(--bar)), var(--sky1); }   /* blur is the most expensive part of the reveal */
 
