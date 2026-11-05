@@ -474,11 +474,12 @@ body > :is(header, main, footer) { position: relative; z-index: 1; }
 }
 .list a { transition: background .2s ease; }
 
-/* Light/dark switch: icon spins in, circle reveal via View Transitions (himmel.js) */
+/* Light/dark switch: icon spins in, page crossfades via View Transitions (himmel.js) */
 .modus-knopf svg { animation: dreh .55s var(--spring); }
 @keyframes dreh { from { opacity: 0; transform: rotate(-120deg) scale(.4); } }
-::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
-::view-transition-new(root) { z-index: 2; }
+/* Mode switch = slow crossfade of the whole page (default blend keeps identical pixels – like the face – steady) */
+::view-transition-group(root) { animation-duration: 1.2s; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: 1.2s; animation-timing-function: cubic-bezier(.4, 0, .2, 1); }
 
 @media (prefers-reduced-motion: no-preference) {
   /* Rise-in keeps the hover lift smooth (own transition list, the tilt itself is driven per frame) */
@@ -558,12 +559,13 @@ section[tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
 .modus-wechsel .modus-knopf svg { animation-play-state: running !important; }
 .modus-wechsel .topbar { backdrop-filter: none; -webkit-backdrop-filter: none; background: linear-gradient(var(--bar), var(--bar)), var(--sky1); }   /* blur is the most expensive part of the reveal */
 
-/* Profile picture in two versions: night sky (dark) and dusk (light) – the light one lies on top and fades in */
-.avatar-box, .bild-paar { position: relative; display: inline-block; border-radius: 50%; vertical-align: middle; }
-.avatar-box { margin-bottom: 22px; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent), 0 14px 44px color-mix(in srgb, var(--accent) 30%, transparent); }
-.avatar-box .avatar { display: block; margin: 0; box-shadow: none; }
+/* Profile picture in layers: night sky and dusk backgrounds, the face on top. Switching modes only fades the
+   background – the face stays exactly where it is. */
+.avatar-box, .bild-paar { position: relative; display: inline-block; border-radius: 50%; vertical-align: middle; overflow: hidden; isolation: isolate; }
+.avatar-box { margin-bottom: 22px; overflow: visible; box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 45%, transparent), 0 14px 44px color-mix(in srgb, var(--accent) 30%, transparent); }
 .bild-paar { width: 28px; height: 28px; box-shadow: 0 0 0 1.5px color-mix(in srgb, var(--accent) 50%, transparent); }
-.bild-paar img { display: block; box-shadow: none; }
-.hell-bild { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity .5s ease; }
-:root:not([data-modus="dunkel"]) .hell-bild { opacity: 1; }
-:root:not([data-modus="dunkel"]) .avatar-box .avatar:not(.hell-bild) { background: #efe3f8; }
+.ebene { display: block; margin: 0 !important; box-shadow: none !important; background: none !important; border-radius: 50%; }
+.ebene + .ebene { position: absolute; inset: 0; }
+.ebene.daemmerung { opacity: 0; transition: opacity 1.2s ease; }
+:root:not([data-modus="dunkel"]) .ebene.daemmerung { opacity: 1; }
+.ebene.nacht, .ebene.daemmerung { pointer-events: none; }

@@ -1,6 +1,6 @@
 // Night sky like the other slxt sites (slxt.org, dash.slxt.dev): stars, shooting stars, a soft aurora.
 // Extras here: two star layers with scroll parallax, a few twinkling stars, tap the sky for your own shooting star,
-// and the light/dark switch reveals the new mode as a growing circle (View Transitions, where supported).
+// and the light/dark switch fades the whole page slowly into the other mode (View Transitions, where supported).
 // Stars only in dark mode (light mode = dusk gradient). With "reduce motion": static stars, nothing moves.
 (() => {
   'use strict';
@@ -99,23 +99,18 @@
     meteor(e.clientX, e.clientY);
   });
 
-  // ---- Light/dark switch: new mode grows as a circle from the button ----
+  // ---- Light/dark switch: the whole page fades slowly (1.2 s) from one mode into the other (View Transitions crossfade –
+  // runs on the GPU from two snapshots). The profile picture's face is identical in both, so only its background changes. ----
   if (!reduce && document.startViewTransition) {
     document.addEventListener('click', (e) => {
       const b = e.target.closest && e.target.closest('[data-modus-schalter]');
       if (!b || !window.slxtModus) return;
       e.preventDefault(); e.stopImmediatePropagation();
-      const r = b.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
-      const rad = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-      // While the circle grows: pause the endless animations (aurora, twinkling, shimmer) and skip colour transitions,
-      // so the browser only has to draw the reveal – that removes the short stutter when switching.
+      // meanwhile: pause endless animations and the glass blur, so the fade has the GPU to itself
       const root = document.documentElement;
       root.classList.add('modus-wechsel');
       const vt = document.startViewTransition(() => window.slxtModus.wechseln());
       vt.finished.finally(() => requestAnimationFrame(() => root.classList.remove('modus-wechsel')));
-      vt.ready.then(() => document.documentElement.animate(
-        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${rad}px at ${x}px ${y}px)`] },
-        { duration: 700, easing: 'cubic-bezier(.4, 0, .2, 1)', pseudoElement: '::view-transition-new(root)' })).catch(() => {});
     }, true);   // capture: runs before modus.js' own click handler
   }
 })();
