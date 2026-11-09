@@ -566,3 +566,10 @@ section[tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
 .ebene.daemmerung { opacity: 0; transition: opacity 1.2s ease; }
 :root:not([data-modus="dunkel"]) .ebene.daemmerung { opacity: 1; }
 .ebene.nacht, .ebene.daemmerung { pointer-events: none; }
+
+/* Impressum/Datenschutz (zentral auf slxt.org) */
+.footer .recht { margin-top: 6px; }
+.footer .recht a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
+.footer .recht span { color: var(--sec); }
+.form-recht { margin: 0 0 12px; color: var(--sec); font-size: .8125rem; line-height: 1.45; }
+.form-recht a { color: var(--text); text-decoration: underline; text-underline-offset: 3px; }
