@@ -16,8 +16,8 @@ keine Icon-CDNs, keine eingebettete Karte – beim Laden werden rund 20 KB über
   dunkel – die Seiten selbst sind im jeweiligen Modus aufgenommen): disslxt und Nexus mit einem **gestellten Chat**
   (erfundene Nutzer in Wegwerf-Instanzen: disslxt über die E2E-Datenbank mit `e2e/tests/portfolio-bilder.spec.ts`,
   Nexus mit den Prod-Images, aber eigener DB + Mailpit), Rechner tippt, slxt.org wirft das Glasfenster, Dashboard und
-  Docs suchen, Shop blättert. Animiert nur, solange die Kachel im Bild ist; davor/danach und bei „Weniger Bewegung“
-  das Standbild (`*-still.webp`). El Gato Gordo: eigene, gezeichnete SVG-Szene (schwebende, geworfene Katzen-Karten,
+  Docs suchen, Shop blättert. Je Modus ein eigenes `<picture>` (CSS zeigt nur das zum Modus passende, das andere wird nicht geladen),
+  „Weniger Bewegung“ wählt per `media` das Standbild (`*-still.webp`) – ganz ohne JavaScript. El Gato Gordo: eigene, gezeichnete SVG-Szene (schwebende, geworfene Katzen-Karten,
   Sternschnuppe) – die Katzen-GIFs kommen von GIPHY und werden nur dort eingebettet, nie kopiert.
 - **Journey**: Zeitleiste und Skills als Schlagwörter.
 - **Kontaktformular** unter [`/contact/`](https://slxt.dev/contact/) („Email me“ führt dorthin): Thema, Name, E-Mail,

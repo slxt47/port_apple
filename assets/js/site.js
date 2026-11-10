@@ -73,30 +73,13 @@
     if (id === 'journey') document.dispatchEvent(new Event('journey-abspielen'));
   });
 
-  // ---- Projekt-Bilder (10.11.2026): bewegt (animiertes WebP) passend zu Hell/Dunkel, solange sichtbar ----
-  // Außerhalb des Bildschirms und bei „Weniger Bewegung“ das Standbild (spart Rechenzeit, nichts bewegt sich ungefragt).
-  const shots = [...document.querySelectorAll('.shot-bild img')];
-  const modusJetzt = () => (window.slxtModus && window.slxtModus.get()) || document.documentElement.dataset.modus || 'dunkel';
-  const imBild = new Set();
-  const bildSetzen = (img) => {
-    const m = modusJetzt() === 'hell' ? 'hell' : 'dunkel';
-    const set = img.dataset[(!reduce && imBild.has(img)) ? m : m + 'Still'];
-    if (set && img.getAttribute('srcset') !== set) {
-      img.srcset = set; img.src = set.split(' ')[0];
-    }
-  };
-  const alleBilder = () => shots.forEach(bildSetzen);
-  for (const img of shots) {
-    img.addEventListener('load', () => img.parentElement.classList.add('geladen'));
-    if (img.complete && img.naturalWidth) img.parentElement.classList.add('geladen');
+  // ---- Projekt-Bilder: Modus und Bewegung regeln HTML/CSS selbst (<picture> je Modus, „Weniger Bewegung“ per media).
+  // Hier nur: Schimmer weg, sobald das sichtbare Bild da ist.
+  for (const img of document.querySelectorAll('.shot-bild img')) {
+    const fertig = () => img.closest('.shot-bild').classList.add('geladen');
+    if (img.complete && img.naturalWidth) fertig();
+    img.addEventListener('load', fertig);
   }
-  const bio = new IntersectionObserver((entries) => {
-    for (const e of entries) { if (e.isIntersecting) imBild.add(e.target); else imBild.delete(e.target); bildSetzen(e.target); }
-  }, { rootMargin: '10% 0px' });
-  shots.forEach((img) => bio.observe(img));
-  alleBilder();
-  addEventListener('modus', alleBilder);
-  new MutationObserver(alleBilder).observe(document.documentElement, { attributes: true, attributeFilter: ['data-modus'] });
 
   if (reduce) return;
 
@@ -108,24 +91,26 @@
   setTimeout(() => document.querySelectorAll('.section').forEach((el) => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('strich'); }), 2500);
 
   // ---- Screenshots: leichter Parallax im Fenster (nur sichtbare, ein rAF je Scroll) ----
+  let pTick = false;
+  const parallaxBald = () => { if (!pTick) { pTick = true; requestAnimationFrame(parallax); } };   // vor dem Observer (ruft sie sofort)
   const sichtbar = new Set();
   const sio = new IntersectionObserver((entries) => {
     for (const e of entries) (e.isIntersecting ? sichtbar.add(e.target) : sichtbar.delete(e.target));
     parallaxBald();
   }, { rootMargin: '15% 0px' });
   document.querySelectorAll('.shot-bild').forEach((el) => { if (el.querySelector('img')) sio.observe(el); });
-  let pTick = false;
+  addEventListener('modus', parallaxBald);
   const parallax = () => {
     pTick = false;
     const h = innerHeight;
     for (const el of sichtbar) {
-      const img = el.querySelector('img'), r = el.getBoundingClientRect();
+      const img = [...el.querySelectorAll('img')].find((i) => i.offsetParent), r = el.getBoundingClientRect();
+      if (!img) continue;
       const spiel = Math.max(0, img.offsetHeight - el.offsetHeight - 6);   // Überstand unten (Fenster flacher als 16:10), Rest für „Zeigen“
       const k = Math.min(1, Math.max(0, (h - r.top) / (h + r.height)));   // 0 = kommt unten rein, 1 = oben raus
       el.style.setProperty('--sy', (-(k * 0.75) * spiel).toFixed(1) + 'px');
     }
   };
-  const parallaxBald = () => { if (!pTick) { pTick = true; requestAnimationFrame(parallax); } };
   addEventListener('scroll', parallaxBald, { passive: true });
   addEventListener('resize', parallaxBald);
 

@@ -592,6 +592,9 @@ section[tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
 .shot-bild { position: relative; aspect-ratio: 16 / 9; overflow: hidden;
   background: linear-gradient(110deg, color-mix(in srgb, var(--text) 4%, transparent) 30%, color-mix(in srgb, var(--text) 9%, transparent) 50%, color-mix(in srgb, var(--text) 4%, transparent) 70%);
   background-size: 250% 100%; }
+.shot-bild picture { display: block; }
+/* Bild je Modus: CSS entscheidet (modus.js setzt data-modus im <head>) – kein JavaScript nötig; das verborgene lädt nicht */
+:root[data-modus="dunkel"] .shot-bild .nur-hell, :root:not([data-modus="dunkel"]) .shot-bild .nur-dunkel { display: none; }
 .shot-bild img { display: block; width: 100%; height: auto;   /* volle Breite, nie seitlich beschnitten; Überstand unten = Parallax */
   transform: translate3d(0, var(--sy, 0px), 0) scale(1.001); }
 .project.wide .shot-bild { aspect-ratio: 16 / 6; }
@@ -612,8 +615,7 @@ section[tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
   .shot-bild { animation: schimmer 1.6s linear infinite; }
   .shot-bild.geladen { animation: none; background: none; }
   .shot-grafik .shot-bild { animation: none; }
-  .shot-bild img { opacity: 0; transition: opacity .7s ease, transform .9s var(--feder); }
-  .shot-bild.geladen img { opacity: 1; }
+  .shot-bild img { transition: transform .9s var(--feder); }   /* immer sichtbar – nicht mehr von JS abhängig */
   /* Zeigen: Bild „scrollt“ ein Stück hoch – als würde man in die Seite schauen */
   @media (hover: hover) and (pointer: fine) {
     .project:hover .shot-bild img { transform: translate3d(0, calc(var(--sy, 0px) - 3%), 0) scale(1.02); }
@@ -662,5 +664,5 @@ html:active-view-transition-type(seitenwechsel)::view-transition-group(kopf) { a
 @keyframes seiteRein { from { opacity: 0; transform: translateY(18px); } }
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
-  .shot-bild img { opacity: 1 !important; transform: none !important; }
+  .shot-bild img { transform: none !important; }
 }
