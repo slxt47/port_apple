@@ -15,10 +15,12 @@ keine Icon-CDNs, keine eingebettete Karte – beim Laden werden rund 20 KB über
   Jede Kachel zeigt die Seite **bewegt im Mini-Browser** (animiertes WebP in `assets/images/projekte/`, hell und
   dunkel – die Seiten selbst sind im jeweiligen Modus aufgenommen): disslxt und Nexus mit einem **gestellten Chat**
   (erfundene Nutzer in Wegwerf-Instanzen: disslxt über die E2E-Datenbank mit `e2e/tests/portfolio-bilder.spec.ts`,
-  Nexus mit den Prod-Images, aber eigener DB + Mailpit), Rechner tippt, slxt.org wirft das Glasfenster, Dashboard und
-  Docs suchen, Shop blättert. Je Modus ein eigenes `<picture>` (CSS zeigt nur das zum Modus passende, das andere wird nicht geladen),
-  „Weniger Bewegung“ wählt per `media` das Standbild (`*-still.webp`) – ganz ohne JavaScript. El Gato Gordo: eigene, gezeichnete SVG-Szene (schwebende, geworfene Katzen-Karten,
-  Sternschnuppe) – die Katzen-GIFs kommen von GIPHY und werden nur dort eingebettet, nie kopiert.
+  Nexus mit den Prod-Images, aber eigener DB + Mailpit), Rechner tippt, slxt.org wirft das Glasfenster, Dashboard sucht,
+  Docs blättert, **Shop mit gestelltem Einkauf** (Wegwerf-Instanz mit Prod-Image, erfundene Leistungen, Platzhalter-
+  Adressen: zwei Leistungen → Auswahl → Formular → Bitcoin → Zahlungsdaten). Je Modus ein eigenes `<picture>` (CSS zeigt nur das zum Modus passende, das andere wird nicht geladen),
+  „Weniger Bewegung“ wählt per `media` das Standbild (`*-still.webp`) – ganz ohne JavaScript. El Gato Gordo: die echte Seite in hell und dunkel (Fenster schweben, werden geworfen) –
+  alle GIPHY-Anfragen wurden bei der Aufnahme abgefangen und durch selbst gezeichnete Katzen ersetzt;
+  von GIPHY wurde nichts geladen oder kopiert.
 - **Journey**: Zeitleiste und Skills als Schlagwörter.
 - **Kontaktformular** unter [`/contact/`](https://slxt.dev/contact/) („Email me“ führt dorthin): Thema, Name, E-Mail,
   Betreff, Nachricht, optional Firma/Schule, Telefon und Website. Die Nachricht geht per Mail an mich (Antworten
