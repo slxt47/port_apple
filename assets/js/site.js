@@ -56,7 +56,15 @@
     if (location.hash) history.replaceState(null, '', location.pathname + location.search);
     const behavior = reduce ? 'auto' : 'smooth';
     if (!ziel) { scrollTo({ top: 0, behavior }); return; }
-    ziel.scrollIntoView({ behavior, block: 'start' });
+    if (id === 'contact' && document.querySelector('.map')) {
+      // „Contact“: so weit scrollen, dass die Karte ganz zu sehen ist (unten bündig, oben nie unter die Kopfleiste)
+      const map = document.querySelector('.map'), kopf = (document.querySelector('.topbar') || {}).offsetHeight || 0;
+      const r = map.getBoundingClientRect(), sec = ziel.getBoundingClientRect();
+      const unten = scrollY + r.bottom - innerHeight + 24, oben = scrollY + r.top - kopf - 12;
+      scrollTo({ top: Math.max(scrollY + sec.top - kopf, Math.min(unten, oben)), behavior });
+    } else {
+      ziel.scrollIntoView({ behavior, block: 'start' });
+    }
     // only the skip link moves keyboard focus into the section (no frame around sections after a mouse click)
     if (a.classList.contains('skip')) {
       if (!ziel.hasAttribute('tabindex')) ziel.setAttribute('tabindex', '-1');
@@ -65,24 +73,30 @@
     if (id === 'journey') document.dispatchEvent(new Event('journey-abspielen'));
   });
 
-  // ---- Projekt-Screenshots (10.11.2026): Bild passend zu Hell/Dunkel, weich einblenden, sobald geladen ----
+  // ---- Projekt-Bilder (10.11.2026): bewegt (animiertes WebP) passend zu Hell/Dunkel, solange sichtbar ----
+  // Außerhalb des Bildschirms und bei „Weniger Bewegung“ das Standbild (spart Rechenzeit, nichts bewegt sich ungefragt).
   const shots = [...document.querySelectorAll('.shot-bild img')];
   const modusJetzt = () => (window.slxtModus && window.slxtModus.get()) || document.documentElement.dataset.modus || 'dunkel';
-  const modusBild = () => {
+  const imBild = new Set();
+  const bildSetzen = (img) => {
     const m = modusJetzt() === 'hell' ? 'hell' : 'dunkel';
-    for (const img of shots) {
-      const set = img.dataset[m];
-      if (set && img.getAttribute('srcset') !== set) { img.srcset = set; img.src = set.split(' ')[0]; }
+    const set = img.dataset[(!reduce && imBild.has(img)) ? m : m + 'Still'];
+    if (set && img.getAttribute('srcset') !== set) {
+      img.srcset = set; img.src = set.split(' ')[0];
     }
   };
+  const alleBilder = () => shots.forEach(bildSetzen);
   for (const img of shots) {
-    const fertig = () => img.parentElement.classList.add('geladen');
-    if (img.complete && img.naturalWidth) fertig();
-    img.addEventListener('load', fertig);
+    img.addEventListener('load', () => img.parentElement.classList.add('geladen'));
+    if (img.complete && img.naturalWidth) img.parentElement.classList.add('geladen');
   }
-  modusBild();
-  addEventListener('modus', modusBild);
-  new MutationObserver(modusBild).observe(document.documentElement, { attributes: true, attributeFilter: ['data-modus'] });
+  const bio = new IntersectionObserver((entries) => {
+    for (const e of entries) { if (e.isIntersecting) imBild.add(e.target); else imBild.delete(e.target); bildSetzen(e.target); }
+  }, { rootMargin: '10% 0px' });
+  shots.forEach((img) => bio.observe(img));
+  alleBilder();
+  addEventListener('modus', alleBilder);
+  new MutationObserver(alleBilder).observe(document.documentElement, { attributes: true, attributeFilter: ['data-modus'] });
 
   if (reduce) return;
 
@@ -247,7 +261,7 @@
       for (const k of karten) {
         k.x = lerp(k.x, k.tx, 0.14); k.y = lerp(k.y, k.ty, 0.14);
         const ang = Math.hypot(k.x, k.y);
-        k.el.style.rotate = ang < 0.01 ? '' : `${(-k.y).toFixed(4)} ${k.x.toFixed(4)} 0 ${(ang * 7).toFixed(3)}deg`;
+        k.el.style.rotate = ang < 0.01 ? '' : `${(-k.y).toFixed(4)} ${k.x.toFixed(4)} 0 ${(ang * 2.4).toFixed(3)}deg`;   // 10.11.: sanfter (war × 7)
         if (Math.abs(k.x - k.tx) + Math.abs(k.y - k.ty) > 0.001) ruhig = false;
       }
       for (const k of knoepfe) {

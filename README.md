@@ -3,17 +3,22 @@
 Meine Portfolio-Seite: **[slxt.dev](https://slxt.dev)** (auch unter port.slxt.org).
 
 Eine einzige statische Seite ohne Frameworks und ohne fremde Server: keine Google Fonts,
-keine Icon-CDNs, keine eingebettete Karte – beim Laden werden rund 20 KB übertragen; die Projekt-Bilder
-(WebP, je nach Bildschirm 480 oder 960 px, nur im aktuellen Modus) kommen erst beim Hinscrollen dazu.
+keine Icon-CDNs, keine eingebettete Karte – beim Laden werden rund 20 KB übertragen; die bewegten Projekt-Bilder
+(animiertes WebP, je nach Bildschirm 480 oder 960 px, nur im aktuellen Modus, zusammen ≈ 0,35 MB am Handy /
+0,9 MB am PC) kommen erst beim Hinscrollen dazu.
 
 ## Was drin ist
 
 - **Intro** mit Memoji und dem Leitsatz „I run my own server. Everything below lives on it.“
 - **Projekte** als Kacheln (disslxt, Nexus, Webshop, El Gato Gordo, Rechner, slxt.org, Dashboard, Homelab)
   mit Hostname, Live-Punkt und Links zur Seite und zur Doku auf [doc.slxt.dev](https://doc.slxt.dev).
-  Jede Kachel zeigt die Seite als **Screenshot im Mini-Browser** (`assets/images/projekte/`, hell + dunkel,
-  passend zum gewählten Modus; nur öffentliche Startseiten ohne fremde Daten). El Gato Gordo bekommt eine eigene
-  Grafik – die Katzen-GIFs kommen von GIPHY und werden nur dort eingebettet, nie kopiert.
+  Jede Kachel zeigt die Seite **bewegt im Mini-Browser** (animiertes WebP in `assets/images/projekte/`, hell und
+  dunkel – die Seiten selbst sind im jeweiligen Modus aufgenommen): disslxt und Nexus mit einem **gestellten Chat**
+  (erfundene Nutzer in Wegwerf-Instanzen: disslxt über die E2E-Datenbank mit `e2e/tests/portfolio-bilder.spec.ts`,
+  Nexus mit den Prod-Images, aber eigener DB + Mailpit), Rechner tippt, slxt.org wirft das Glasfenster, Dashboard und
+  Docs suchen, Shop blättert. Animiert nur, solange die Kachel im Bild ist; davor/danach und bei „Weniger Bewegung“
+  das Standbild (`*-still.webp`). El Gato Gordo: eigene, gezeichnete SVG-Szene (schwebende, geworfene Katzen-Karten,
+  Sternschnuppe) – die Katzen-GIFs kommen von GIPHY und werden nur dort eingebettet, nie kopiert.
 - **Journey**: Zeitleiste und Skills als Schlagwörter.
 - **Kontaktformular** unter [`/contact/`](https://slxt.dev/contact/) („Email me“ führt dorthin): Thema, Name, E-Mail,
   Betreff, Nachricht, optional Firma/Schule, Telefon und Website. Die Nachricht geht per Mail an mich (Antworten
@@ -36,7 +41,7 @@ Geprüft gegen Apples Human Interface Guidelines:
 - Sternenhimmel wie auf slxt.org und dem Dashboard (dunkel: Sterne in zwei Ebenen mit Parallax,
   funkelnde Sterne, Sternschnuppen, Klick in den Himmel = eigene Sternschnuppe, sanftes Polarlicht;
   hell: Abenddämmerung). Hell/Dunkel-Wechsel als wachsender Kreis vom Schalter (View Transitions).
-- Seit 10.11.2026: Karten blenden mit Feder und leichter Skalierung ein, Screenshots ziehen sich von oben auf,
+- Seit 10.11.2026: Karten neigen sich beim Zeigen nur noch sanft (≈ ⅓), blenden mit Feder und leichter Skalierung ein, Screenshots ziehen sich von oben auf,
   laden mit Schimmer, „spähen“ beim Zeigen nach oben und haben leichten Parallax; Abschnittstrenner zeichnen sich
   von der Mitte aus; Wechsel zur Kontaktseite und zurück als View Transition (Kopfleiste bleibt stehen).
 - Animationen (Intro, gleitende Navigation, Fortschrittsbalken, Hero-Parallax, 3D-Neigung und
@@ -55,7 +60,8 @@ assets/js/himmel.js      Sternenhimmel, Sternschnuppen, Kreisblende beim Moduswe
 assets/js/contact.js     Kontaktformular (Token holen, prüfen, senden)
 contact/index.html       Kontaktseite
 assets/images/           Memoji (WebP 192/384 px), Favicon
-assets/images/projekte/  Projekt-Screenshots <name>-<dunkel|hell>-<480|960>.webp (aufgenommen mit Playwright, 1280×800)
+assets/images/projekte/  Projekt-Bilder <name>-<dunkel|hell>-<480|960>[-still].webp (animiert + Standbild,
+                         Bild für Bild mit Playwright aufgenommen, 1280×800, mit Pillow zu WebP)
 ```
 
 Lokal ansehen:
