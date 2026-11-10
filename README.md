@@ -3,13 +3,17 @@
 Meine Portfolio-Seite: **[slxt.dev](https://slxt.dev)** (auch unter port.slxt.org).
 
 Eine einzige statische Seite ohne Frameworks und ohne fremde Server: keine Google Fonts,
-keine Icon-CDNs, keine eingebettete Karte – beim Laden werden rund 20 KB übertragen.
+keine Icon-CDNs, keine eingebettete Karte – beim Laden werden rund 20 KB übertragen; die Projekt-Bilder
+(WebP, je nach Bildschirm 480 oder 960 px, nur im aktuellen Modus) kommen erst beim Hinscrollen dazu.
 
 ## Was drin ist
 
 - **Intro** mit Memoji und dem Leitsatz „I run my own server. Everything below lives on it.“
 - **Projekte** als Kacheln (disslxt, Nexus, Webshop, El Gato Gordo, Rechner, slxt.org, Dashboard, Homelab)
   mit Hostname, Live-Punkt und Links zur Seite und zur Doku auf [doc.slxt.dev](https://doc.slxt.dev).
+  Jede Kachel zeigt die Seite als **Screenshot im Mini-Browser** (`assets/images/projekte/`, hell + dunkel,
+  passend zum gewählten Modus; nur öffentliche Startseiten ohne fremde Daten). El Gato Gordo bekommt eine eigene
+  Grafik – die Katzen-GIFs kommen von GIPHY und werden nur dort eingebettet, nie kopiert.
 - **Journey**: Zeitleiste und Skills als Schlagwörter.
 - **Kontaktformular** unter [`/contact/`](https://slxt.dev/contact/) („Email me“ führt dorthin): Thema, Name, E-Mail,
   Betreff, Nachricht, optional Firma/Schule, Telefon und Website. Die Nachricht geht per Mail an mich (Antworten
@@ -32,6 +36,9 @@ Geprüft gegen Apples Human Interface Guidelines:
 - Sternenhimmel wie auf slxt.org und dem Dashboard (dunkel: Sterne in zwei Ebenen mit Parallax,
   funkelnde Sterne, Sternschnuppen, Klick in den Himmel = eigene Sternschnuppe, sanftes Polarlicht;
   hell: Abenddämmerung). Hell/Dunkel-Wechsel als wachsender Kreis vom Schalter (View Transitions).
+- Seit 10.11.2026: Karten blenden mit Feder und leichter Skalierung ein, Screenshots ziehen sich von oben auf,
+  laden mit Schimmer, „spähen“ beim Zeigen nach oben und haben leichten Parallax; Abschnittstrenner zeichnen sich
+  von der Mitte aus; Wechsel zur Kontaktseite und zurück als View Transition (Kopfleiste bleibt stehen).
 - Animationen (Intro, gleitende Navigation, Fortschrittsbalken, Hero-Parallax, 3D-Neigung und
   Lichtrand auf Karten, magnetische Knöpfe mit Welle, Zeiger-Licht, Zeitleiste und Karte zeichnen
   sich) – nur `transform`/`opacity`, ein gemeinsamer `requestAnimationFrame`-Takt, der im Ruhezustand
@@ -48,6 +55,7 @@ assets/js/himmel.js      Sternenhimmel, Sternschnuppen, Kreisblende beim Moduswe
 assets/js/contact.js     Kontaktformular (Token holen, prüfen, senden)
 contact/index.html       Kontaktseite
 assets/images/           Memoji (WebP 192/384 px), Favicon
+assets/images/projekte/  Projekt-Screenshots <name>-<dunkel|hell>-<480|960>.webp (aufgenommen mit Playwright, 1280×800)
 ```
 
 Lokal ansehen:

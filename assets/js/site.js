@@ -65,7 +65,55 @@
     if (id === 'journey') document.dispatchEvent(new Event('journey-abspielen'));
   });
 
+  // ---- Projekt-Screenshots (10.11.2026): Bild passend zu Hell/Dunkel, weich einblenden, sobald geladen ----
+  const shots = [...document.querySelectorAll('.shot-bild img')];
+  const modusJetzt = () => (window.slxtModus && window.slxtModus.get()) || document.documentElement.dataset.modus || 'dunkel';
+  const modusBild = () => {
+    const m = modusJetzt() === 'hell' ? 'hell' : 'dunkel';
+    for (const img of shots) {
+      const set = img.dataset[m];
+      if (set && img.getAttribute('srcset') !== set) { img.srcset = set; img.src = set.split(' ')[0]; }
+    }
+  };
+  for (const img of shots) {
+    const fertig = () => img.parentElement.classList.add('geladen');
+    if (img.complete && img.naturalWidth) fertig();
+    img.addEventListener('load', fertig);
+  }
+  modusBild();
+  addEventListener('modus', modusBild);
+  new MutationObserver(modusBild).observe(document.documentElement, { attributes: true, attributeFilter: ['data-modus'] });
+
   if (reduce) return;
+
+  // ---- Abschnittstrenner zeichnen sich, wenn der Abschnitt ins Bild kommt ----
+  const striche = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add('strich'); striche.unobserve(e.target); }
+  }, { rootMargin: '0px 0px -12% 0px' });
+  document.querySelectorAll('.section').forEach((el) => striche.observe(el));
+  setTimeout(() => document.querySelectorAll('.section').forEach((el) => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('strich'); }), 2500);
+
+  // ---- Screenshots: leichter Parallax im Fenster (nur sichtbare, ein rAF je Scroll) ----
+  const sichtbar = new Set();
+  const sio = new IntersectionObserver((entries) => {
+    for (const e of entries) (e.isIntersecting ? sichtbar.add(e.target) : sichtbar.delete(e.target));
+    parallaxBald();
+  }, { rootMargin: '15% 0px' });
+  document.querySelectorAll('.shot-bild').forEach((el) => { if (el.querySelector('img')) sio.observe(el); });
+  let pTick = false;
+  const parallax = () => {
+    pTick = false;
+    const h = innerHeight;
+    for (const el of sichtbar) {
+      const img = el.querySelector('img'), r = el.getBoundingClientRect();
+      const spiel = Math.max(0, img.offsetHeight - el.offsetHeight - 6);   // Überstand unten (Fenster flacher als 16:10), Rest für „Zeigen“
+      const k = Math.min(1, Math.max(0, (h - r.top) / (h + r.height)));   // 0 = kommt unten rein, 1 = oben raus
+      el.style.setProperty('--sy', (-(k * 0.75) * spiel).toFixed(1) + 'px');
+    }
+  };
+  const parallaxBald = () => { if (!pTick) { pTick = true; requestAnimationFrame(parallax); } };
+  addEventListener('scroll', parallaxBald, { passive: true });
+  addEventListener('resize', parallaxBald);
 
   // ---- Rise-in once while scrolling (safety net: everything visible after 2.5 s) ----
   document.documentElement.classList.add('js');
